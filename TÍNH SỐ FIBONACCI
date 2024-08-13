@@ -1,0 +1,25 @@
+import java.util.Scanner;
+import java.util.Vector;
+
+
+public class Main {
+    public static Vector<Long> solve() {
+        Vector<Long> Fibo = new Vector<>(93);
+        Fibo.add(0L);
+        Fibo.add(1L);
+        for (int i = 2; i < 93; i++) Fibo.add(Fibo.get(i - 1) + Fibo.get(i - 2));
+        return Fibo;
+    }
+
+    public static void main(String[] args) {
+        Vector<Long> Fibo = solve();
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        while (tc-- > 0) {
+            int x = sc.nextInt();
+            System.out.println(Fibo.get(x));
+        }
+    }
+}
+
+
