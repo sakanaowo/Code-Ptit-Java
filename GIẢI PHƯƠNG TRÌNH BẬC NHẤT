@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+public class Main {
+    public static String solve(double a, double b) {
+        if (a == 0) {
+            if (b == 0) return "VSN";
+            else return "VN";
+        } else {
+            double x = -b / a;
+            return String.format("%.2f", x);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double a = sc.nextDouble(), b = sc.nextDouble();
+        String c = solve(a, b);
+        System.out.println(c);
+    }
+}
+
+
