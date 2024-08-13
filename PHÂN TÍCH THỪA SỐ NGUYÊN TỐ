@@ -1,0 +1,34 @@
+import java.util.Scanner;
+import java.util.Vector;
+
+import static java.lang.Math.sqrt;
+
+
+public class Main {
+    public static String solve(Long n) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 2; i <= sqrt(n); i++) {
+            if (n % i == 0) {
+                int c = 0;
+                while (n % i == 0) {
+                    n /= i;
+                    c++;
+                }
+                res.append(i).append("(").append(c).append(") ");
+            }
+        }
+        if (n > 1) res.append(n).append("(1)");
+        return res.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        for (int i = 1; i <= tc; i++) {
+            Long n = sc.nextLong();
+            System.out.println("Test " + i + ": " + solve(n));
+        }
+    }
+}
+
+
