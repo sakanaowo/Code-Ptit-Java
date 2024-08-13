@@ -1,0 +1,25 @@
+import java.util.Scanner;
+import java.util.Vector;
+
+import static java.lang.Math.sqrt;
+
+
+public class Main {
+    public static Long sovle(Long n) {
+        if (n == 1) return 1L;
+        if (n == 2) return 2L;
+        if (n == 3) return 6L;
+        Long i = 1L;
+        for (int j = 2; j <= n; j++) i *= j;
+        return i;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Long n = sc.nextLong(), res = 0L;
+        for (long i = 1; i <= n; i++) res += sovle(i);
+        System.out.print(res);
+    }
+}
+
+
