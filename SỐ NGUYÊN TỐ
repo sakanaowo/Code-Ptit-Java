@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+import static java.lang.Math.sqrt;
+
+public class Main {
+    public static String solve(long a) {
+        if (a <= 1) return "NO";
+        for (int i = 2; i <= sqrt(a); i++) if (a % i == 0) return "NO";
+        return "YES";
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        while (tc-- > 0) {
+            long a = sc.nextLong();
+            String c = solve(a);
+            System.out.println(c);
+        }
+    }
+}
+
+
