@@ -1,0 +1,30 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Vector;
+
+import static java.lang.Math.*;
+
+
+public class Sakana {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        while (tc-- > 0) {
+            int n = sc.nextInt();
+            Vector<Integer> a = new Vector<>(n);
+            for (int i = 1; i <= n; i++) a.add(sc.nextInt());
+            System.out.println(solve(a));
+        }
+    }
+
+    private static String solve(Vector<Integer> a) {
+        int l = 0, r = a.size() - 1;
+        while (l < r) {
+            if (a.get(l) != a.get(r)) return "NO";
+            r -= 1;
+            l++;
+        }
+        return "YES";
+    }
+}
