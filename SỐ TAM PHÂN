@@ -1,0 +1,19 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+
+public class Sakana {
+    public static String Try(String s) {
+        for (char x : s.toCharArray()) if (x - '0' >= 3) return "NO";
+        return "YES";
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        while (tc-- > 0) {
+            String s = sc.next();
+            System.out.println(Try(s));
+        }
+    }
+}
