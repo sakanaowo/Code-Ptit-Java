@@ -1,0 +1,21 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Vector;
+
+import static java.lang.Math.*;
+
+
+public class Sakana {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        while (tc-- > 0) {
+            long x = sc.nextLong();
+            long tmp = (long) sqrt(x);
+            if (tmp * tmp == x) System.out.println("YES");
+            else System.out.println("NO");
+
+        }
+    }
+}
