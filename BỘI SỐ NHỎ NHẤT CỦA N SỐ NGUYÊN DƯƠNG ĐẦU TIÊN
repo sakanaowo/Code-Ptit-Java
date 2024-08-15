@@ -1,0 +1,39 @@
+import java.io.FileNotFoundException;
+import java.util.*;
+
+import static java.lang.Math.max;
+
+
+public class Sakana {
+    public static long lcm(long a, long b) {
+        return (a / gcd(a, b)) * b;
+    }
+
+    private static long gcd(long a, long b) {
+        while (b != 0) {
+            long tmp = b;
+            b = a % b;
+            a = tmp;
+        }
+        return a;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        long[] lcmCache = new long[105];
+        lcmCache[1] = 1;
+        int latest = 1;
+        while (tc-- > 0) {
+            int n = sc.nextInt();
+            if (n > latest) {
+                for (int i = latest + 1; i <= n; i++)
+                    lcmCache[i] = lcm(lcmCache[i - 1], i);
+
+                latest = n;
+            }
+            System.out.println(lcmCache[n]);
+        }
+    }
+
+}
