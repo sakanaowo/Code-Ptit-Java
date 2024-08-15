@@ -1,0 +1,31 @@
+import java.io.FileNotFoundException;
+import java.util.*;
+
+class Edge {
+    int u, v;
+
+    public Edge(int u, int v) {
+        this.u = u;
+        this.v = v;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + u + "," + v + ")";
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        List<Edge> graph = new ArrayList<>();
+        Scanner cin = new Scanner(System.in);
+        int n = cin.nextInt();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int tmp = cin.nextInt();
+                if (j > i) if (tmp == 1) graph.add(new Edge(i + 1, j + 1));
+            }
+        }
+        for (Edge e : graph) System.out.println(e);
+    }
+}
