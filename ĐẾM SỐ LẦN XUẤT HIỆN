@@ -1,0 +1,24 @@
+import java.io.FileNotFoundException;
+import java.util.*;
+
+
+public class Sakana {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        Map<Integer, Integer> mp = new LinkedHashMap<>();
+        for (int t = 1; t <= tc; t++) {
+            int n = sc.nextInt();
+            while (n-- > 0) {
+                int tmp = sc.nextInt();
+                mp.put(tmp, mp.getOrDefault(tmp, 0) + 1);
+            }
+            System.out.println("Test " + t + ":");
+            for (Map.Entry<Integer, Integer> i : mp.entrySet())
+                System.out.println(i.getKey() + " xuat hien " + i.getValue() + " lan");
+            mp.clear();
+        }
+    }
+
+}
