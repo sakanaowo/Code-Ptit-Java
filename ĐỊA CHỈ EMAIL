@@ -1,0 +1,32 @@
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Sakana {
+    static Map<String, Integer> emails = new HashMap<>();
+
+    public static String normal(String s) {
+        s = s.trim().replaceAll("\\s+", " ").toLowerCase();
+        String[] name = s.split(" ");
+        String last = name[name.length - 1];
+        StringBuilder ehe = new StringBuilder();
+        for (int i = 0; i < name.length - 1; i++)
+            ehe.append(name[i].charAt(0));
+        String email = last + ehe.toString();
+        int c = emails.getOrDefault(email, 0) + 1;
+        emails.put(email, c);
+        if (c == 1) return email + "@ptit.edu.vn";
+        return email + c + "@ptit.edu.vn";
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
+        sc.nextLine();
+        while (tc-- > 0) {
+            String s = sc.nextLine();
+            System.out.println(normal(s));
+        }
+    }
+}
