@@ -1,0 +1,14 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        String[] s = sc.nextLine().split(" ");
+        int cd = Integer.parseInt(s[0]), cr = Integer.parseInt(s[1]);
+        String color = s[2].substring(0, 1).toUpperCase() + s[2].substring(1).toLowerCase();
+        if (cd <= 0 || cr <= 0) System.out.println("INVALID");
+        else System.out.println((cd + cr) * 2 + " " + (cd * cr) + " " + color);
+    }
+}
