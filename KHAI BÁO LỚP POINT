@@ -1,0 +1,54 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+class Point {
+
+    private double x, y;
+
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Point(Scanner sc) {
+        this.x = sc.nextDouble();
+        this.y = sc.nextDouble();
+    }
+
+
+    public Point(Point p) {
+        this.x = p.x;
+        this.y = p.y;
+    }
+
+    public double getX() {
+        return this.x;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+
+    public double distance(Point other) {
+        double dx = this.x - other.x;
+        double dy = this.y - other.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public static double distance(Point a, Point b) {
+        double dx = a.x - b.x;
+        double dy = a.y - b.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt(), c = 0;
+        while (t-- > 0) {
+            Point A = new Point(sc), B = new Point(sc);
+            System.out.printf("%.4f\n", A.distance(B));
+        }
+    }
+}
