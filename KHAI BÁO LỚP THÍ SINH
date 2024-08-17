@@ -1,0 +1,13 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine(), date = sc.nextLine();
+        float a = sc.nextFloat(), b = sc.nextFloat(), c = sc.nextFloat();
+        String s = String.format("%.1f", (a + b + c));
+        System.out.println(name + " " + date + " " + s);
+    }
+}
