@@ -1,0 +1,39 @@
+import java.io.FileNotFoundException;
+import java.util.*;
+
+class Time {
+    int h, m, s;
+    long total;
+
+    Time(int a, int b, int c) {
+        this.h = a;
+        this.m = b;
+        this.s = c;
+        this.total = a * 3600 + b * 60 + c;
+    }
+
+    @Override
+    public String toString() {
+        return (this.h + " " + this.m + " " + this.s);
+    }
+}
+
+public class Sakana {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner cin = new Scanner(System.in);
+        int t = cin.nextInt();
+        List<Time> times = new ArrayList<>();
+        while (t-- > 0) {
+            int a = cin.nextInt(), b = cin.nextInt(), c = cin.nextInt();
+            times.add(new Time(a, b, c));
+        }
+        Collections.sort(times, new Comparator<Time>() {
+            @Override
+            public int compare(Time o1, Time o2) {
+                return (int) (o1.total - o2.total);
+            }
+        });
+        for (Time x : times) System.out.println(x);
+    }
+}
