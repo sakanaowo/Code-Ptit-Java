@@ -1,0 +1,24 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.math.BigInteger;
+import java.util.*;
+
+
+public class Sakana {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(new File("src\\DATA.in"));
+        BigInteger x = ehe(new BigInteger(sc.next()));
+        while (x.toString().length() != 1) {
+            System.out.println(x);
+            x = ehe(x);
+        }
+        System.out.print(x);
+    }
+
+    private static BigInteger ehe(BigInteger x) {
+        String s = x.toString();
+        BigInteger left = new BigInteger(s.substring(0, s.length() / 2)), right = new BigInteger(s.substring(s.length() / 2));
+        return left.add(right);
+    }
+}
