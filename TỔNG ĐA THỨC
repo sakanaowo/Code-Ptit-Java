@@ -1,0 +1,63 @@
+import java.io.FileNotFoundException;
+import java.util.*;
+
+class DaThuc {
+    public Map<Integer, Integer> coef = new TreeMap<>(Collections.reverseOrder());
+
+    DaThuc() {
+    }
+
+    DaThuc(String s) {
+        String[] x = s.replaceAll("[*x^+]", " ").trim().split("\\s+");
+        Stack<Integer> st = new Stack<>();
+        for (String tmp : x) {
+            if (st.empty()) st.push(Integer.parseInt(tmp));
+            else {
+                int cof = st.pop();
+                int exp = Integer.parseInt(tmp);
+                this.coef.put(exp, this.coef.getOrDefault(exp, 0) + cof);
+            }
+        }
+    }
+
+    public DaThuc cong(DaThuc other) {
+        Map<Integer, Integer> res = new TreeMap<>(Collections.reverseOrder());
+        res.putAll(this.coef);
+        for (Map.Entry<Integer, Integer> entry : other.coef.entrySet()) {
+            int exp = entry.getKey();
+            int cof = entry.getValue();
+            res.put(exp, res.getOrDefault(exp, 0) + cof);
+        }
+        DaThuc ehe = new DaThuc();
+        ehe.coef = res;
+        return ehe;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        int count = 0;
+        for (Map.Entry<Integer, Integer> entry : this.coef.entrySet()) {
+            if (count > 0) {
+                res.append(" + ");
+            }
+            res.append(entry.getValue()).append("*x^").append(entry.getKey());
+            count++;
+        }
+        return res.toString();
+    }
+}
+
+public class Sakana {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) {
+            DaThuc p = new DaThuc(sc.nextLine());
+            DaThuc q = new DaThuc(sc.nextLine());
+            DaThuc r = p.cong(q);
+            System.out.println(r);
+        }
+    }
+}
