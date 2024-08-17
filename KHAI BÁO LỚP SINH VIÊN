@@ -1,0 +1,20 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+
+public class Sakana {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine(), ID = sc.nextLine();
+        String date = sc.nextLine(), gpa = String.format("%.2f", sc.nextFloat());
+        StringBuilder newdate = new StringBuilder();
+        String[] tmp = date.split("/");
+        if (tmp[0].length() == 1) tmp[0] = "0" + tmp[0];
+        newdate.append(tmp[0] + "/");
+        if (tmp[1].length() == 1) tmp[1] = "0" + tmp[1];
+        newdate.append(tmp[1] + "/").append(tmp[2]);
+        date = newdate.toString();
+        System.out.println("B20DCCN001 " + name + " " + ID + " " + date + " " + gpa);
+    }
+}
