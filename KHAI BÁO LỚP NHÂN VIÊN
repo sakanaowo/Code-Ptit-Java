@@ -1,0 +1,12 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+
+public class Sakana {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine() + " ", gender = sc.nextLine() + " ", bdate = sc.nextLine() + " ", address = sc.nextLine() + " ", tax = sc.nextLine() + " ", date = sc.nextLine() + " ";
+        System.out.println("00001 " + name + gender + bdate + address + tax + date);
+    }
+}
