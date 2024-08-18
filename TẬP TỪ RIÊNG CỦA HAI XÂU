@@ -1,0 +1,18 @@
+import java.io.FileNotFoundException;
+import java.util.*;
+
+
+public class Sakana {
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) {
+            String[] a = sc.nextLine().split(" "), b = sc.nextLine().split(" ");
+            Set<String> s1 = new HashSet<>(Arrays.asList(a)), s2 = new HashSet<>(Arrays.asList(b));
+            for (String i : s1) if (!s2.contains(i)) System.out.print(i + " ");
+            System.out.println();
+        }
+    }
+}
