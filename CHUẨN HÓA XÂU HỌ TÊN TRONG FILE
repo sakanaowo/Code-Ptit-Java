@@ -1,0 +1,27 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(new File("DATA.in"));
+        List<String> vec = new ArrayList<>();
+        while (sc.hasNextLine()) {
+            String tmp = sc.nextLine();
+            if (tmp.equals("END")) break;
+            else vec.add(solve(tmp.trim().replaceAll("\\s+", " ")));
+        }
+        for (String x : vec) System.out.println(x);
+    }
+
+    private static String solve(String tmp) {
+        StringBuilder s = new StringBuilder();
+        String[] ss = tmp.split(" ");
+        for (String x : ss) {
+            x = x.substring(0, 1).toUpperCase() + x.substring(1).toLowerCase();
+            s.append(x + " ");
+        }
+        return s.toString();
+    }
+}
