@@ -1,0 +1,41 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+
+class SV {
+    String name, classID, BDATE, ID;
+    double gpa;
+
+    SV(Scanner sc, int x) {
+        this.ID = "B20DCCN" + String.format("%03d", x);
+        this.name = sc.nextLine();
+        this.classID = sc.nextLine();
+        this.BDATE = normal(sc.nextLine().trim());
+        this.gpa = Double.parseDouble(sc.nextLine());
+    }
+
+    private String normal(String s) {
+        StringBuilder date = new StringBuilder();
+        String[] tmp = s.split("/");
+        if (tmp[0].length() < 2) tmp[0] = "0" + tmp[0];
+        date.append(tmp[0]+"/");
+        if (tmp[1].length() < 2) tmp[1] = "0" + tmp[1];
+        date.append(tmp[1]+"/").append(tmp[2]);
+        return date.toString();
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.classID + " " + this.BDATE + " " + String.format("%.2f", this.gpa);
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(new File("SV.in"));
+        int t = Integer.parseInt(sc.nextLine());
+        List<SV> ehe = new ArrayList<>();
+        for (int i = 1; i <= t; i++) ehe.add(new SV(sc, i));
+        for (SV x : ehe) System.out.println(x);
+    }
+}
