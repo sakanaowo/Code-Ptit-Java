@@ -1,0 +1,17 @@
+import java.io.FileNotFoundException;
+import java.math.BigInteger;
+import java.util.*;
+
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        BigInteger a, b = BigInteger.valueOf(11);
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) {
+            a = new BigInteger(sc.nextLine());
+            if (a.mod(b).equals(BigInteger.ZERO)) System.out.println(1);
+            else System.out.println(0);
+        }
+    }
+}
