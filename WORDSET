@@ -1,0 +1,45 @@
+import java.util.*;
+
+class WordSet {
+    Set<String> set;
+
+    WordSet(String x) {
+        this.set = new HashSet<>();
+        String[] arr = x.split(" ");
+        for (String i : arr) this.set.add(i.toLowerCase());
+    }
+
+    WordSet(Set<String> s) {
+        this.set = new HashSet<>(s);
+    }
+
+    public WordSet union(WordSet other) {
+        Set<String> newSet = new HashSet<>(this.set);
+        newSet.addAll(other.set);
+        return new WordSet(newSet);
+    }
+
+    public WordSet intersection(WordSet other) {
+        Set<String> newSet = new HashSet<>(this.set);
+        newSet.retainAll(other.set);
+        return new WordSet(newSet);
+    }
+
+    @Override
+    public String toString() {
+        List<String> sortedList = new ArrayList<>(set);
+        Collections.sort(sortedList);
+        return String.join(" ", sortedList);
+    }
+
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        WordSet s1 = new WordSet(in.nextLine());
+        WordSet s2 = new WordSet(in.nextLine());
+        System.out.println(s1.union(s2));
+        System.out.println(s1.intersection(s2));
+    }
+}
