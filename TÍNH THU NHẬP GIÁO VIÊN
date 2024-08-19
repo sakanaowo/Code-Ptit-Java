@@ -1,0 +1,48 @@
+import java.math.BigInteger;
+import java.util.Scanner;
+
+class GV {
+    String name, position;
+    BigInteger base_salary, income, allowance, coef;
+
+    public GV(Scanner sc) {
+        this.position = sc.nextLine();
+        this.name = sc.nextLine();
+        this.base_salary = new BigInteger(sc.nextLine());
+
+        switch (this.position.substring(0, 2)) {
+            case "HT":
+                this.allowance = new BigInteger("2000000");
+                break;
+            case "HP":
+                this.allowance = new BigInteger("900000");
+                break;
+            case "GV":
+                this.allowance = new BigInteger("500000");
+                break;
+            default:
+                this.allowance = BigInteger.ZERO;
+                break;
+        }
+
+        this.coef = new BigInteger(this.position.substring(2));
+        this.income = solve(this.base_salary, this.allowance);
+    }
+
+    private BigInteger solve(BigInteger salary, BigInteger allowance) {
+        return salary.multiply(this.coef).add(allowance);
+    }
+
+    @Override
+    public String toString() {
+        return this.position + " " + this.name + " " + this.coef + " " + this.allowance + " " + this.income;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        GV gv = new GV(sc);
+        System.out.println(gv);
+    }
+}
