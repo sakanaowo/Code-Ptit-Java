@@ -1,0 +1,40 @@
+import java.math.BigInteger;
+import java.util.*;
+
+class Item {
+    String code, name, unit;
+    BigInteger Pprice, Sprice;
+    BigInteger profit;
+
+    Item(Scanner sc, int i) {
+        this.code = "MH" + String.format("%03d", i);
+        this.name = sc.nextLine();
+        this.unit = sc.nextLine();
+        this.Pprice = new BigInteger(sc.nextLine());
+        this.Sprice = new BigInteger(sc.nextLine());
+        this.profit = Sprice.subtract(Pprice);
+    }
+
+    @Override
+    public String toString() {
+        return code + " " + name + " " + unit + " " + Pprice + " " + Sprice + " " + profit;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Item> items = new ArrayList<Item>();
+        int t = Integer.parseInt(sc.nextLine());
+        for (int i = 0; i < t; i++) {
+            items.add(new Item(sc, i + 1));
+        }
+        Collections.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return o2.profit.compareTo(o1.profit);
+            }
+        });
+        for (Item item : items) System.out.println(item);
+    }
+}
