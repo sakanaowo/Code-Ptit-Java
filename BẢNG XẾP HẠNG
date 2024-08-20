@@ -1,0 +1,42 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+class People implements Comparable<People> {
+    String name;
+    int submit, AC;
+
+    public People(Scanner sc) {
+        this.name = sc.nextLine();
+        String[] s = sc.nextLine().split(" ");
+        this.submit = Integer.parseInt(s[1]);
+        this.AC = Integer.parseInt(s[0]);
+    }
+
+    @Override
+    public int compareTo(People other) {
+        if (this.AC != other.AC) {
+            return other.AC - this.AC;
+        } else if (this.submit != other.submit) {
+            return this.submit - other.submit;
+        } else {
+            return this.name.compareTo(other.name);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.AC + " " + this.submit;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+        List<People> people = new ArrayList<>();
+        while (t-- > 0) people.add(new People(sc));
+        Collections.sort(people);
+        for (People p : people) System.out.println(p);
+    }
+}
