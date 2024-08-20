@@ -1,0 +1,68 @@
+import java.util.Scanner;
+
+import static java.lang.Math.sqrt;
+
+class Point {
+    double x, y;
+
+    Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public static Point nextPoint(Scanner sc) {
+        double x = sc.nextDouble(), y = sc.nextDouble();
+        return new Point(x, y);
+    }
+
+    public double distance(Point b) {
+        return sqrt(Math.pow(b.x - x, 2) + Math.pow(b.y - y, 2));
+    }
+}
+
+class Triangle {
+    Point[] points = new Point[4];
+    boolean valid = true;
+    double AB, BC, CA;
+    double area, radius;
+
+    Triangle(Point a, Point b, Point c) {
+        this.points[0] = a;
+        this.points[1] = b;
+        this.points[2] = c;
+        this.AB = a.distance(b);
+        this.BC = b.distance(c);
+        this.CA = c.distance(a);
+        if (AB + BC <= CA || BC + CA <= AB || CA + AB <= BC) this.valid = false;
+        else {
+            calcArea(AB, BC, CA);
+            calcRadius();
+        }
+    }
+
+    private void calcRadius() {
+        this.radius = (AB * BC * CA) / (area * 4);
+    }
+
+
+    private void calcArea(double a, double b, double c) {
+        this.area = sqrt((a + b + c) * (a + b - c) * (-a + b + c) * (a - b + c)) * 1 / 4;
+    }
+
+    public String getArea() {
+        if (!valid) return "INVALID";
+        double CArea = radius * radius * Math.PI;
+        return String.format("%.3f", CArea);
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            Triangle a = new Triangle(Point.nextPoint(sc), Point.nextPoint(sc), Point.nextPoint(sc));
+            System.out.println(a.getArea());
+        }
+    }
+}
