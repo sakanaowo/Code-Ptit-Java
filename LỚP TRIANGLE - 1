@@ -1,0 +1,66 @@
+import java.io.FileNotFoundException;
+import java.math.BigInteger;
+import java.util.Scanner;
+
+class Point {
+    double x, y;
+
+    Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public static Point nextPoint(Scanner sc) {
+        double x = sc.nextDouble(), y = sc.nextDouble();
+        return new Point(x, y);
+    }
+
+    public double distance(Point b) {
+        return Math.sqrt(Math.pow(b.x - x, 2) + Math.pow(b.y - y, 2));
+    }
+}
+
+class Triangle {
+    Point[] points = new Point[4];
+    boolean valid = true;
+    double AB, BC, CA;
+    double perimeter;
+
+    Triangle(Point a, Point b, Point c) {
+        this.points[0] = a;
+        this.points[1] = b;
+        this.points[2] = c;
+        this.AB = a.distance(b);
+        this.BC = b.distance(c);
+        this.CA = c.distance(a);
+        if (AB + BC <= CA || BC + CA <= AB || CA + AB <= BC) this.valid = false;
+        else calcP();
+    }
+
+    private void calcP() {
+        this.perimeter = AB + BC + CA;
+    }
+
+    public String getPerimeter() {
+        return String.format("%.3f", perimeter);
+    }
+
+    public boolean valid() {
+        return valid;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            Triangle a = new Triangle(Point.nextPoint(sc), Point.nextPoint(sc), Point.nextPoint(sc));
+            if (!a.valid()) {
+                System.out.println("INVALID");
+            } else {
+                System.out.println(a.getPerimeter());
+            }
+        }
+    }
+}
