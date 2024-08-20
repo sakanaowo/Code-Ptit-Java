@@ -1,0 +1,43 @@
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.Scanner;
+
+class Fraction {
+    BigInteger up, down;
+
+    public Fraction(BigInteger up, BigInteger down) {
+        BigInteger gcd = up.gcd(down);
+        this.up = up.divide(gcd);
+        this.down = down.divide(gcd);
+    }
+
+    public Fraction add(Fraction other) {
+        BigInteger up = this.up.multiply(other.down).add(this.down.multiply(other.up));
+        BigInteger down = this.down.multiply(other.down);
+        return new Fraction(up, down);
+    }
+
+    public Fraction multiply(Fraction other) {
+        return new Fraction(this.up.multiply(other.up), this.down.multiply(other.down));
+    }
+
+    @Override
+    public String toString() {
+        return up.toString() + "/" + down.toString();
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        int tc = Integer.parseInt(sc.nextLine());
+        while (tc-- > 0) {
+            BigInteger a = new BigInteger(sc.next()), b = new BigInteger(sc.next());
+            BigInteger c = new BigInteger(sc.next()), d = new BigInteger(sc.next());
+            Fraction A = new Fraction(a, b), B = new Fraction(c, d);
+            Fraction C = (A.add(B)).multiply(A.add(B));
+            Fraction D = (A.multiply(B)).multiply(C);
+            System.out.println(C + " " + D);
+        }
+    }
+}
