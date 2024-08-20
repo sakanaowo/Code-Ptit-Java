@@ -1,0 +1,37 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+class Complex {
+    int real, imaginary;
+
+    public Complex(int real, int imaginary) {
+        this.real = real;
+        this.imaginary = imaginary;
+    }
+
+    public Complex add(Complex z) {
+        return new Complex(real + z.real, imaginary + z.imaginary);
+    }
+
+    public Complex mult(Complex z) {
+        return new Complex((this.real * z.real - this.imaginary * z.imaginary), (this.real * z.imaginary + this.imaginary * z.real));
+    }
+
+    @Override
+    public String toString() {
+        return this.real + " + " + this.imaginary + "i";
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = Integer.parseInt(sc.nextLine());
+        while (tc-- > 0) {
+            int a = sc.nextInt(), b = sc.nextInt(), c = sc.nextInt(), d = sc.nextInt();
+            Complex z1 = new Complex(a, b), z2 = new Complex(c, d);
+            Complex C = (z1.add(z2)).mult(z1), D = (z1.add(z2)).mult(z1.add(z2));
+            System.out.println(C + ", " + D);
+        }
+    }
+}
