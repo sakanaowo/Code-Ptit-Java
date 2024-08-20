@@ -1,0 +1,45 @@
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(countIntersections(sc.nextLine()));
+    }
+
+    public static int countIntersections(String s) {
+        Map<Character, int[]> positions = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!positions.containsKey(c)) {
+                positions.put(c, new int[2]);
+                positions.get(c)[0] = i;
+            } else {
+                positions.get(c)[1] = i;
+            }
+        }
+
+        int intersections = 0;
+
+        for (char i : positions.keySet()) {
+            for (char j : positions.keySet()) {
+                if (i < j) {
+                    int x1 = positions.get(i)[0];
+                    int x2 = positions.get(i)[1];
+                    int y1 = positions.get(j)[0];
+                    int y2 = positions.get(j)[1];
+
+                    if ((x1 < y1 && y1 < x2 && x2 < y2) || (y1 < x1 && x1 < y2 && y2 < x2)) {
+                        intersections++;
+                    }
+                }
+            }
+        }
+
+        return intersections;
+    }
+}
