@@ -1,0 +1,42 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
+
+class People {
+    String name, department, code;
+    String nameless;
+
+    People(Scanner sc, int i) {
+        this.name = sc.nextLine();
+        this.nameless = this.name.toLowerCase();
+        String[] dp = sc.nextLine().split(" ");
+        this.department = Arrays.stream(dp).map(word -> word.substring(0, 1).toUpperCase()).collect(Collectors.joining());
+        this.code = String.format("GV%02d", i);
+    }
+
+    @Override
+    public String toString() {
+        return this.code + " " + this.name + " " + this.department;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+
+        int t = Integer.parseInt(sc.nextLine());
+        List<People> people = new ArrayList<>();
+        for (int i = 1; i <= t; i++) people.add(new People(sc, i));
+
+        int q = Integer.parseInt(sc.nextLine());
+        for (int i = 1; i <= q; i++) {
+            String key = sc.nextLine();
+            System.out.println("DANH SACH GIANG VIEN THEO TU KHOA " + key + ":");
+            key = key.toLowerCase();
+            for (People p : people) {
+                if (p.nameless.contains(key)) System.out.println(p);
+            }
+        }
+    }
+}
