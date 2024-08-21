@@ -1,0 +1,38 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+class Student implements Comparable<Student> {
+    String ID, name, classId;
+    double s1, s2, s3;
+
+    Student(Scanner sc) {
+        ID = sc.nextLine();
+        name = sc.nextLine();
+        classId = sc.nextLine();
+        s1 = Double.parseDouble(sc.nextLine());
+        s2 = Double.parseDouble(sc.nextLine());
+        s3 = Double.parseDouble(sc.nextLine());
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return this.ID.compareTo(o.ID);
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + classId + " " + s1 + " " + s2 + " " + s3;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        List<Student> students = new ArrayList<>();
+        int tc = Integer.parseInt(sc.nextLine());
+        while (tc-- > 0) students.add(new Student(sc));
+        Collections.sort(students);
+        for (int i = 1; i <= students.size(); i++) System.out.println(i + " " + students.get(i-1));
+    }
+}
