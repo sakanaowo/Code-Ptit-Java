@@ -1,0 +1,38 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("DANHSACH.in"));
+        List<String> lst = new ArrayList<>();
+        while (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            String[] words = s.split("\\s+");
+            StringBuilder builder = new StringBuilder();
+            for (String w : words)
+                if (!w.isEmpty())
+                    builder.append(w.substring(0, 1).toUpperCase())
+                            .append(w.substring(1).toLowerCase())
+                            .append(" ");
+            lst.add(builder.toString().trim());
+        }
+        Collections.sort(lst, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String[] part1 = o1.split("\\s+");
+                String[] part2 = o2.split("\\s+");
+
+                String last1 = part1[part1.length - 1];
+                String last2 = part2[part2.length - 1];
+
+                int cmp = last1.compareTo(last2);
+                if (cmp == 0) return o1.compareTo(o2);
+                return cmp;
+            }
+        });
+        for (String s : lst) System.out.println(s);
+    }
+}
