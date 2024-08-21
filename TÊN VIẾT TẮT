@@ -1,0 +1,56 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+class Person implements Comparable<Person> {
+    String name, abbreviation;
+    String first, last;
+
+    Person(String name) {
+        this.name = name;
+        this.abbreviation = Arrays.stream(name.split("\\s+"))
+                .map(word -> word.substring(0, 1))
+                .collect(Collectors.joining());
+        this.first = name.split("\\s+")[0];
+        this.last = name.split("\\s+")[name.split("\\s+").length - 1];
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        if (this.last.compareTo(other.last) == 0) return this.first.compareTo(other.first);
+        return this.last.compareTo(other.last);
+    }
+
+    public boolean suit(String s) {
+        String[] a = s.split("['.']");
+        if (a.length != this.abbreviation.length()) return false;
+        for (int i = 0; i < a.length; i++) {
+            if (a[i].charAt(0) == '*') continue;
+            if (a[i].charAt(0) != this.abbreviation.charAt(i)) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("DANHSACH.in"));
+        ArrayList<Person> persons = new ArrayList<>();
+        int tc = Integer.parseInt(sc.nextLine());
+        while (tc-- > 0) persons.add(new Person(sc.nextLine()));
+        Collections.sort(persons);
+        int q = sc.nextInt();
+        while (q-- > 0) {
+            String key = sc.next();
+            for (Person person : persons) if (person.suit(key)) System.out.println(person);
+        }
+    }
+}
