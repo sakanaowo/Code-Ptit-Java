@@ -1,0 +1,40 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+
+class Item implements Comparable<Item> {
+    String ID, name, group;
+    double purchase_price, sell_price, profit;
+
+    Item(Scanner sc, int i) {
+        ID = "MH" + String.format("%02d", i);
+        name = sc.nextLine();
+        group = sc.nextLine();
+        purchase_price = Double.parseDouble(sc.nextLine());
+        sell_price = Double.parseDouble(sc.nextLine());
+        profit = sell_price - purchase_price;
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        return Double.compare(profit, o.profit);
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + group + " " + String.format("%.2f", profit);
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("MATHANG.in"));
+        int tc = Integer.parseInt(sc.nextLine());
+        List<Item> items = new ArrayList<>();
+        for (int i = 1; i <= tc; i++) items.add(new Item(sc, i));
+        Collections.sort(items, Collections.reverseOrder());
+        for (Item item : items) System.out.println(item);
+    }
+}
