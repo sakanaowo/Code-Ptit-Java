@@ -1,0 +1,81 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.Math.round;
+
+class Emp {
+    String name, date, rank, ID;
+    double theory, pratical, bonus, score;
+    int age;
+
+    Emp(Scanner sc, int i) {
+        this.ID = String.format("PH%02d", i);
+        this.name = normalize_name(sc.nextLine());
+        this.date = normalize_date(sc.nextLine());
+        this.age = calcAge();
+        this.theory = Double.parseDouble(sc.nextLine());
+        this.pratical = Double.parseDouble(sc.nextLine());
+        this.bonus = calcBonus();
+        this.rank = calcRank();
+    }
+
+    private int calcAge() {
+        return 2021 - Integer.parseInt(this.date.split("/")[2]);
+    }
+
+    private String calcRank() {
+        double tmp = (this.pratical + this.theory) / 2 + this.bonus;
+        this.score = (tmp > 10) ? 10 : ((int) round(tmp));
+        if (this.score >= 9) return "Xuat sac";
+        else if (this.score == 8) return "Gioi";
+        else if (this.score == 7) return "Kha";
+        else if (this.score >= 5) return "Trung binh";
+        else return "Truot";
+    }
+
+    private double calcBonus() {
+        if (this.theory >= 8 && this.pratical >= 8) return 1;
+        if (this.theory >= 7.5 && this.pratical >= 7.5) return 0.5;
+        return 0;
+    }
+
+    private String normalize_date(String s) {
+        String[] x = s.split("/");
+        StringBuilder sb = new StringBuilder();
+        if (x[0].length() == 1) x[0] = "0" + x[0];
+        if (x[1].length() == 1) x[1] = "0" + x[1];
+        sb.append(x[0] + "/" + x[1] + "/" + x[2]);
+        return sb.toString();
+    }
+
+    private String normalize_name(String s) {
+        StringBuilder sb = new StringBuilder();
+        String[] words = s.split("\\s+");
+        for (String word : words) {
+            if (!word.isEmpty())
+                sb.append(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ");
+        }
+        return sb.toString().trim();
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.age + " " + (int)this.score + " " + this.rank;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("XETTUYEN.in"));
+        int t = Integer.parseInt(sc.nextLine());
+        List<Emp> emps = new ArrayList<>();
+        for (int i = 1; i <= t; i++) {
+            emps.add(new Emp(sc, i));
+        }
+        for (Emp e : emps) System.out.println(e);
+    }
+}
