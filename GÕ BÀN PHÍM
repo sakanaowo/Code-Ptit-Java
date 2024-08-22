@@ -1,0 +1,23 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        String flow = sc.nextLine();
+        Stack<Character> a = new Stack<>(), b = new Stack<>();
+        for (char c : flow.toCharArray()) {
+            if (c == '<') {
+                if (!a.empty()) b.push(a.pop());
+            } else if (c == '>') {
+                if (!b.empty()) a.push(b.pop());
+            } else if (c == '-') {
+                if (!a.empty()) a.pop();
+            } else a.push(c);
+        }
+        while (!a.empty()) b.push(a.pop());
+        while (!b.empty()) System.out.print(b.pop());
+    }
+}
