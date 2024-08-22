@@ -1,0 +1,69 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+class Student implements Comparable<Student> {
+    String ID, name;
+    double T, L, H, prio, total;
+    String admitted;
+
+    Student(Scanner sc) {
+        this.ID = sc.nextLine();
+        this.name = normalize(sc.nextLine());
+        this.T = Double.parseDouble(sc.nextLine());
+        this.L = Double.parseDouble(sc.nextLine());
+        this.H = Double.parseDouble(sc.nextLine());
+        this.prio = getPrio(this.ID.substring(0, 3));
+        this.total = this.T * 2 + this.L + this.H + this.prio;
+    }
+
+    private double getPrio(String s) {
+        switch (s) {
+            case "KV1":return  0.5;
+            case "KV2" :return 1.0;
+            case "KV3": return 2.5;
+            default :return  0.0;
+        }
+    }
+
+    private String normalize(String s) {
+        StringBuilder sb = new StringBuilder();
+        String[] words = s.split("\\s+");
+        for (String word : words) {
+            if (!word.isEmpty())
+                sb.append(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ");
+        }
+        return sb.toString().trim();
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        if (this.total == o.total) return this.ID.compareTo(o.ID);
+        return this.total < o.total ? 1 : -1;
+    }
+
+    @Override
+    public String toString() {
+        this.admitted = (this.total >= Sakana.AdScore) ? "TRUNG TUYEN" : "TRUOT";
+        String prio = ((int) (this.prio) == this.prio) ? String.format("%.0f", this.prio) : String.format("%.1f", this.prio);
+        String total = ((int) (this.total) == this.total) ? String.format("%.0f", this.total) : String.format("%.1f", this.total);
+        return ID + " " + name + " " + prio + " " + total + " " + this.admitted;
+    }
+}
+
+public class Sakana {
+    static double AdScore;
+
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("THISINH.in"));
+        int tc = Integer.parseInt(sc.nextLine());
+        List<Student> students = new ArrayList<>();
+        while (tc-- > 0) students.add(new Student(sc));
+        Collections.sort(students);
+        int k = sc.nextInt();
+        AdScore = students.get(k - 1).total;
+        System.out.println(String.format("%.1f", AdScore));
+        for (Student student : students) System.out.println(student);
+    }
+}
