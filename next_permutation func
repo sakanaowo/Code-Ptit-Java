@@ -1,0 +1,51 @@
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+
+public class Sakana {
+    public static int[] swap(int data[], int l, int r) {
+        int temp = data[l];
+        data[l] = data[r];
+        data[r] = temp;
+        return data;
+    }
+
+    public static int[] reverse(int data[], int l, int r) {
+        while (l < r) {
+            swap(data, l, r);
+            l++;
+            r--;
+        }
+        return data;
+    }
+
+    public static boolean next_permutation(int data[]) {
+        if (data.length <= 1) return false;
+        int last = data.length - 2;
+        while (last >= 0) {
+            if (data[last] < data[last + 1]) break;
+            last--;
+        }
+        if (last < 0) return false;
+
+        int nextGreater = data.length - 1;
+        for (int i = data.length - 1; i > last; i--) {
+            if (data[i] > data[last]) {
+                nextGreater = i;
+                break;
+            }
+        }
+        data = swap(data, nextGreater, last);
+        data = reverse(data, last + 1, data.length - 1);
+        return true;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int[] data = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        while (next_permutation(data)) {
+            System.out.println(Arrays.toString(data));
+        }
+    }
+}
