@@ -1,0 +1,24 @@
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+
+public class Sakana {
+    public static String normalize(String s) {
+        StringBuilder sb = new StringBuilder();
+        String[] words = s.split("\\s+");
+        for (String word : words) {
+            if (!word.isEmpty())
+                sb.append(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ");
+        }
+        return sb.toString().trim();
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = Integer.parseInt(sc.nextLine());
+        while (tc-- > 0) {
+            System.out.println(normalize(sc.nextLine()));
+        }
+    }
+}
