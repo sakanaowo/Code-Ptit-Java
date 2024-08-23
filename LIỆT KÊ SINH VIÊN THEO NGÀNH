@@ -1,0 +1,69 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+class Student {
+    String ID, name, classId, email;
+    String field;
+
+    Student(Scanner sc, HashMap<String, String> hm) {
+        this.ID = sc.nextLine();
+        this.name = sc.nextLine();
+        this.classId = sc.nextLine();
+        this.email = sc.nextLine();
+        this.field = getFieldFromID(hm);
+    }
+
+    private String getFieldFromID(HashMap<String, String> hm) {
+        String x = this.ID.substring(3, 7);
+        for (Map.Entry<String, String> entry : hm.entrySet()) {
+            if (entry.getValue().equals(x)) {
+                return entry.getKey().toUpperCase();
+            }
+        }
+        return "";
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + classId + " " + email;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        HashMap<String, String> hm = new HashMap<>();
+        hm.put("KE TOAN", "DCKT");
+        hm.put("CONG NGHE THONG TIN", "DCCN");
+        hm.put("AN TOAN THONG TIN", "DCAT");
+        hm.put("VIEN THONG", "DCVT");
+        hm.put("DIEN TU", "DCDT");
+
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+        List<Student> students = new ArrayList<>();
+
+        while (t-- > 0) {
+            students.add(new Student(sc, hm));
+        }
+
+        int q = Integer.parseInt(sc.nextLine());
+
+        while (q-- > 0) {
+            String field = sc.nextLine().toUpperCase();
+            System.out.println("DANH SACH SINH VIEN NGANH " + field + ":");
+
+            String codePrefix = hm.get(field);
+
+            if (codePrefix != null) {
+                for (Student s : students) {
+                    if (s.ID.contains(codePrefix)) {
+                        if (field.equals("CONG NGHE THONG TIN") || field.equals("AN TOAN THONG TIN")) {
+                            if (!s.classId.startsWith("E")) System.out.println(s);
+                        } else System.out.println(s);
+                    }
+                }
+            }
+        }
+    }
+}
