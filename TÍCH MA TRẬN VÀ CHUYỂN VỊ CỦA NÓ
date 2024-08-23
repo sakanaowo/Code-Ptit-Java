@@ -1,0 +1,90 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+
+class Matrix {
+    int[][] matrix;
+    int n, m;
+
+    Matrix(int n, int m) {
+        this.matrix = new int[n][m];
+        this.n = n;
+        this.m = m;
+    }
+
+    public void nextMatrix(Scanner sc) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix[i][j] = sc.nextInt();
+            }
+        }
+    }
+
+    public Matrix trans() {
+        Matrix tmp = new Matrix(this.m, this.n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) tmp.matrix[i][j] = matrix[j][i];
+        }
+        return tmp;
+    }
+
+    Matrix mul(Matrix other) {
+        Matrix result = new Matrix(this.n, other.m);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < other.m; j++) {
+                for (int k = 0; k < this.m; k++) {
+                    result.matrix[i][j] += matrix[i][k] * other.matrix[k][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                sb.append(matrix[i][j] + " ");
+            }
+            if (i != n - 1) sb.append("\n");
+        }
+        return sb.toString();
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while(t-->0){
+             int n = sc.nextInt(), m = sc.nextInt();
+             Matrix a = new Matrix(n,m);
+             a.nextMatrix(sc);
+             Matrix b = a.trans();
+             System.out.println(a.mul(b));
+        }
+    }
+    public static void main6017402(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while(t-->0){
+             int n = sc.nextInt(), m = sc.nextInt();
+             Matrix a = new Matrix(n,m);
+             a.nextMatrix(sc);
+             Matrix b = a.trans();
+             System.out.println(a.mul(b));
+        }
+    }
+    public static void main2814982(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt(), m = sc.nextInt();
+            Matrix a = new Matrix(n, m);
+            a.nextMatrix(sc);
+            Matrix b = a.trans();
+            System.out.println(a.mul(b));
+        }
+    }
+}
