@@ -1,0 +1,70 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+
+import static java.lang.Math.sqrt;
+
+class Point {
+    double x, y;
+
+    Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public double To(Point other) {
+        return sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+    }
+}
+
+class Triangle {
+    double AB, BC, CA;
+
+    Triangle(Point A, Point B, Point C) {
+        AB = A.To(B);
+        BC = A.To(C);
+        CA = B.To(C);
+    }
+
+    public double getArea() {
+        return sqrt((AB + BC + CA) * (AB + BC - CA) * (-AB + BC + CA) * (AB - BC + CA)) * 1 / 4;
+    }
+}
+
+class Polygon {
+    Point[] points;
+    int n_vertices;
+
+    public Polygon(Scanner sc) {
+        n_vertices = sc.nextInt();
+        this.points = new Point[n_vertices];
+        for (int i = 0; i < n_vertices; i++) {
+            this.points[i] = new Point(sc.nextDouble(), sc.nextDouble());
+        }
+    }
+
+    public double getArea() {
+        double area = 0;
+        for (int i = 1; i < n_vertices - 1; i++) {
+            Triangle hehe = new Triangle(points[0], points[i], points[i + 1]);
+            area += hehe.getArea();
+        }
+        return area;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%.3f", this.getArea());
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) {
+            Polygon p = new Polygon(sc);
+            System.out.println(p);
+        }
+    }
+}
