@@ -1,0 +1,30 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+public class Sakana {
+    static ArrayList<Integer> lst = new ArrayList<Integer>();
+
+    static void hehe(int i, String s) {
+        lst.add(Integer.parseInt(s));
+        if (i == 8) return;
+        hehe(i + 1, s + "0");
+        hehe(i + 1, s + "9");
+    }
+
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int tc = Integer.parseInt(sc.nextLine());
+        hehe(0, "9");
+        Collections.sort(lst);
+        while (tc-- > 0) {
+            int n = Integer.parseInt(sc.nextLine());
+            for (int i : lst) {
+                if (i % n == 0) {
+                    System.out.println(i);
+                    break;
+                }
+            }
+        }
+    }
+}
