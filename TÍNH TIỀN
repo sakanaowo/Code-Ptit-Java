@@ -1,0 +1,41 @@
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Item implements Comparable<Item> {
+    String name, ID;
+    int purchases;
+    BigInteger price, discount, paid;
+
+    public Item(Scanner sc) {
+        this.ID = sc.nextLine();
+        this.name = sc.nextLine();
+        this.purchases = Integer.parseInt(sc.nextLine());
+        this.price = new BigInteger(sc.nextLine());
+        this.discount = new BigInteger(sc.nextLine());
+        this.paid = this.price.multiply(BigInteger.valueOf(purchases)).subtract(discount);
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        return o.paid.compareTo(paid);
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.purchases + " " + this.price + " " + this.discount + " " + this.paid;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+        List<Item> items = new ArrayList<Item>();
+        while (t-- > 0) items.add(new Item(sc));
+        Collections.sort(items);
+        for (Item item : items) System.out.println(item);
+    }
+}
