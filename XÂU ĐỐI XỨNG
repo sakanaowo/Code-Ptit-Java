@@ -1,0 +1,19 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+
+public class Sakana {
+    public static String solve(String s) {
+        int len = s.length(), exp = 0;
+        for (int i = 0; i < len / 2; i++) if (s.charAt(i) != s.charAt(len - i - 1)) exp++;
+        if (exp == 1 || exp == 0 && len % 2 == 1) return "YES";
+        else return "NO";
+    }
+
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt();
+        while (t-- > 0) System.out.println(solve(in.next()));
+    }
+}
