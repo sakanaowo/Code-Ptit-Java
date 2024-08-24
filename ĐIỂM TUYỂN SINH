@@ -1,0 +1,76 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Student implements Comparable<Student> {
+    String name, ethnic, ID, status;
+    int region;
+    double score;
+
+    public Student(Scanner sc, int i) {
+        this.ID = String.format("TS%02d", i);
+        this.name = normalize(sc.nextLine());
+        this.score = Double.parseDouble(sc.nextLine());
+        this.ethnic = sc.nextLine().toUpperCase();
+        this.region = Integer.parseInt(sc.nextLine());
+        solve();
+    }
+
+    private String normalize(String s) {
+        String[] flow = s.split("\\s+");
+        StringBuilder builder = new StringBuilder();
+        for (String x : flow) {
+            if (!x.isEmpty())
+                builder.append(x.substring(0, 1).toUpperCase()).append(x.substring(1).toLowerCase()).append(" ");
+        }
+        return builder.toString().trim();
+    }
+
+
+    private void solve() {
+        double prio;
+        switch (this.region) {
+            case 1:
+                prio = 1.5;
+                break;
+            case 2:
+                prio = 1;
+                break;
+            default:
+                prio = 0;
+                break;
+        }
+        if (!this.ethnic.equals("KINH")) prio += 1.5;
+        this.score += prio;
+        if (this.score >= 20.5) this.status = "Do";
+        else this.status = "Truot";
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %.1f %s", ID, name, score, status);
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        if (this.score == o.score) return this.ID.compareTo(o.ID);
+        return this.score < o.score ? 1 : -1;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("THISINH.in"));
+
+        List<Student> students = new ArrayList<Student>();
+        int t = Integer.parseInt(sc.nextLine());
+        for (int i = 0; i < t; i++) students.add(new Student(sc, i + 1));
+        Collections.sort(students);
+
+        for (Student s : students) System.out.println(s);
+    }
+}
