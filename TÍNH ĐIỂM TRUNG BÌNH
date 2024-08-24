@@ -1,0 +1,71 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+class Student implements Comparable<Student> {
+    String name, ID;
+    double score1, score2, score3, total;
+    int rank;
+
+    public Student(Scanner sc, int i) {
+        this.name = normalize(sc.nextLine());
+        this.ID = "SV" + String.format("%02d", i);
+        this.score1 = Double.parseDouble(sc.nextLine());
+        this.score2 = Double.parseDouble(sc.nextLine());
+        this.score3 = Double.parseDouble(sc.nextLine());
+        this.total = (this.score1 * 3 + this.score2 * 3 + this.score3 * 2) / 8;
+    }
+
+    public void setRank(int i) {
+        this.rank = i;
+    }
+
+    private String normalize(String s) {
+        String[] flow = s.split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String x : flow) {
+            if (!x.isEmpty())
+                sb.append(Character.toUpperCase(x.charAt(0)))
+                        .append(x.substring(1).toLowerCase())
+                        .append(" ");
+        }
+        return sb.toString().trim();
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        if (this.total == o.total) return this.ID.compareTo(o.ID);
+        return Double.compare(o.total, this.total);
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + String.format("%.2f", this.total) + " " + this.rank;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("BANGDIEM.in"));
+
+        int t = Integer.parseInt(sc.nextLine()), current = 1;
+        List<Student> students = new ArrayList<>();
+
+        for (int i = 0; i < t; i++) students.add(new Student(sc, i + 1));
+        Collections.sort(students);
+        students.get(0).setRank(current);
+
+
+        for (int i = 0; i < students.size(); i++) {
+            if (i > 0 && students.get(i).total == students.get(i - 1).total) {
+                students.get(i).setRank(students.get(i - 1).rank);
+                current++;
+            } else {
+                students.get(i).setRank(current);
+                current++;
+            }
+            System.out.println(students.get(i));
+        }
+    }
+}
