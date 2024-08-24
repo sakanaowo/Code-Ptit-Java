@@ -1,0 +1,47 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int up = 0, down = n - 1, left = 0, right = n - 1, j = 0;
+        int[][] matrix = new int[n][n];
+        int l = n * n;
+        List<Integer> a = new ArrayList<>(l);
+        for (int i = 0; i < l; i++) a.add(sc.nextInt());
+        Collections.sort(a);
+
+        while (left <= right && up <= down) {
+            if (up <= down)
+                for (int i = left; i <= right; i++) {
+                    matrix[up][i] = a.get(j++);
+                }
+            up++;
+            if (left <= right)
+                for (int i = up; i <= down; i++) {
+                    matrix[i][right] = a.get(j++);
+                }
+            right--;
+            if (up <= down)
+                for (int i = right; i >= left; i--) {
+                    matrix[down][i] = a.get(j++);
+                }
+            down--;
+            if (left <= right)
+                for (int i = down; i >= up; i--) {
+                    matrix[i][left] = a.get(j++);
+                }
+            left++;
+        }
+        for (int i = 0; i < n; i++) {
+            for (int k = 0; k < n; k++) {
+                System.out.print(matrix[i][k] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
