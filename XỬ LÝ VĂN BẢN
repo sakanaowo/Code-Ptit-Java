@@ -1,0 +1,30 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        StringBuilder s = new StringBuilder();
+        while (sc.hasNext()) {
+            String tmp = sc.next();
+            s.append(tmp).append(" ");
+        }
+        String hehe = s.toString().toLowerCase()
+                .replaceAll("[?!]", ".")
+                .replace(". ", ".");
+        String[] sentence = hehe.split("\\.");
+        for (String x : sentence) {
+            if (!x.trim().isEmpty()) System.out.println(solve(x));
+        }
+    }
+
+    private static String solve(String s) {
+        if (s.isEmpty()) {
+            return s;
+        }
+        String[] words = s.split("\\s+");
+        words[0] = words[0].substring(0, 1).toUpperCase() + words[0].substring(1);
+        return String.join(" ", words);
+    }
+}
