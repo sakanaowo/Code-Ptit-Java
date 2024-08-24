@@ -1,0 +1,26 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+
+public class Sakana {
+    public static String solve(String s) {
+        int odd = 0, even = 0;
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                int x = (c - '0') % 2;
+                if (x == 1) odd++;
+                else even++;
+            } else return "INVALID";
+        }
+        if (s.length() % 2 == 0 && even > odd) return "YES";
+        else if (odd > even && s.length() % 2 == 1) return "NO";
+        return "NO";
+    }
+
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt();
+        while (t-- > 0) System.out.println(solve(in.next()));
+    }
+}
