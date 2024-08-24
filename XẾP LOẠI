@@ -1,0 +1,63 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+class Student implements Comparable<Student> {
+    String name, ID, rank;
+    double score1, score2, score3, total;
+
+    public Student(Scanner sc, int i) {
+        this.name = normalize(sc.nextLine());
+        this.ID = "SV" + String.format("%02d", i);
+        this.score1 = Double.parseDouble(sc.nextLine());
+        this.score2 = Double.parseDouble(sc.nextLine());
+        this.score3 = Double.parseDouble(sc.nextLine());
+        this.total = (this.score1 * 0.25 + this.score2 * 0.35 + this.score3 * 0.4);
+        this.rank = solve();
+    }
+
+    private String solve() {
+        if (this.total < 5) return "KEM";
+        else if (this.total < 6.5) return "TRUNG BINH";
+        else if (this.total < 8) return "KHA";
+        else return "GIOI";
+    }
+
+
+    private String normalize(String s) {
+        String[] flow = s.split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String x : flow) {
+            if (!x.isEmpty())
+                sb.append(Character.toUpperCase(x.charAt(0)))
+                        .append(x.substring(1).toLowerCase())
+                        .append(" ");
+        }
+        return sb.toString().trim();
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return -Double.compare(this.total, o.total);
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + String.format("%.2f", this.total) + " " + this.rank;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("BANGDIEM.in"));
+
+        int t = Integer.parseInt(sc.nextLine()), current = 1;
+        List<Student> students = new ArrayList<>();
+
+        for (int i = 0; i < t; i++) students.add(new Student(sc, i + 1));
+        Collections.sort(students);
+        for (Student s : students) System.out.println(s);
+
+    }
+}
