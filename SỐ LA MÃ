@@ -1,0 +1,33 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+
+public class Sakana {
+    static Map<Character, Integer> m = new HashMap<>();
+    static String LM = "MDCLXVI";
+
+    public static int solve(String s) {
+        for (int i = 0; i < LM.length(); i++) {
+            if (s.indexOf(LM.charAt(i)) > -1) {
+                int x = s.indexOf(LM.charAt(i));
+                return m.get(LM.charAt(i)) - solve(s.substring(0, x)) + solve(s.substring(x + 1));
+            }
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner in = new Scanner(System.in);
+        m.put('I', 1);
+        m.put('V', 5);
+        m.put('X', 10);
+        m.put('L', 50);
+        m.put('C', 100);
+        m.put('D', 500);
+        m.put('M', 1000);
+
+        int t = in.nextInt();
+        while (t-- > 0) System.out.println(solve(in.next()));
+    }
+}
