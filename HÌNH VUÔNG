@@ -1,0 +1,23 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+import static java.lang.Math.*;
+
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(System.in);
+        int x1 = sc.nextInt(), y1 = sc.nextInt(), x2 = sc.nextInt(), y2 = sc.nextInt();
+        int x3 = sc.nextInt(), y3 = sc.nextInt(), x4 = sc.nextInt(), y4 = sc.nextInt();
+
+        int xmin = min(x1, x3), ymin = min(y1, y3);
+        int xmax = max(x2, x4), ymax = max(y2, y4);
+
+        int width = xmax - xmin, height = ymax - ymin;
+
+        int max_ = max(width, height);
+
+        System.out.println(max_ * max_);
+    }
+}
