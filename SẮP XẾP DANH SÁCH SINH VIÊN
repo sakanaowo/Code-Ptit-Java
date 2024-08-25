@@ -1,0 +1,53 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+class Student implements Comparable<Student> {
+    String name, ID, number, email;
+    String last, first, middle;
+
+
+    public Student(Scanner sc) {
+        this.ID = sc.nextLine();
+        this.name = sc.nextLine();
+        this.number = sc.nextLine();
+        this.email = sc.nextLine();
+        solve();
+    }
+
+    private void solve() {
+        String[] flow = this.name.split("\\s+");
+        int n = flow.length;
+        this.last = flow[n - 1];
+        this.first = flow[0];
+        this.middle = String.join(" ", Arrays.copyOfRange(flow, 1, n - 1));
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        if(this.last.compareTo(o.last)==0){
+            if(this.name.compareTo(o.name)==0){
+                return this.ID.compareTo(o.ID);
+            }
+            return this.name.compareTo(o.name);
+        }
+        return this.last.compareTo(o.last);
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.number + " " + this.email;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("SINHVIEN.in"));
+        List<Student> students = new ArrayList<>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) students.add(new Student(sc));
+        Collections.sort(students);
+        for (Student s : students) System.out.println(s);
+    }
+}
