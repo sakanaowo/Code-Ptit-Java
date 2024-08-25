@@ -1,0 +1,38 @@
+import java.util.*;
+
+class Graph {
+    Map<Integer, List<Integer>> graph;
+
+    public Graph() {
+        this.graph = new HashMap<Integer, List<Integer>>();
+    }
+
+    public void addEdge(int x, int y) {
+        graph.putIfAbsent(x, new ArrayList<Integer>());
+        graph.putIfAbsent(y, new ArrayList<Integer>());
+        graph.get(x).add(y);
+        graph.get(y).add(x);
+    }
+
+    public String isStar() {
+        int center = 0, leaves = 0, cenD = graph.size() - 1;
+        for (int i : graph.keySet()) {
+            int degree = graph.get(i).size();
+            if (degree == cenD) center++;
+            else if (degree == 1) leaves++;
+            else return "No";
+        }
+        if (center == 1 && leaves == cenD) return "Yes";
+        return "No";
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Graph graph = new Graph();
+        int t = sc.nextInt();
+        while (t-- > 1) graph.addEdge(sc.nextInt(), sc.nextInt());
+        System.out.println(graph.isStar());
+    }
+}
