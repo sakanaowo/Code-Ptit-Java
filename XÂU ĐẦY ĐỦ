@@ -1,0 +1,24 @@
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int n = sc.nextInt();
+        while (n-- > 0) System.out.println(solve());
+    }
+
+    private static String solve() {
+        String s = sc.next();
+        int n = sc.nextInt();
+        if (s.length() < 26) return "NO";
+        Set<Character> set = s.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toSet());
+        if (set.size() + n >= 26 && set.size() + n <= s.length()) return "YES";
+        else return "NO";
+    }
+}
