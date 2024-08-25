@@ -1,0 +1,38 @@
+import java.util.*;
+
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void solve() {
+        String s = sc.next();
+        int n = s.length();
+        String a = s.substring(0, n / 2), b = s.substring(n / 2);
+        a = Rorate(a);
+        b = Rorate(b);
+        System.out.println(merge(a, b));
+    }
+
+    private static String merge(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < a.length(); i++) {
+            int value = b.charAt(i) - 'A';
+            char x = (char) ((a.charAt(i) - 'A' + value) % 26 + 'A');
+            sb.append(x);
+        }
+        return sb.toString();
+    }
+
+    private static String Rorate(String a) {
+        int value = 0;
+        for (char x : a.toCharArray()) value += x - 'A';
+        StringBuilder sb = new StringBuilder();
+        for (char x : a.toCharArray()) sb.append((char) ((x - 'A' + value) % 26 + 'A'));
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        int t = sc.nextInt();
+        while (t-- > 0) solve();
+    }
+}
