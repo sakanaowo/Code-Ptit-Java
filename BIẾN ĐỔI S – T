@@ -1,0 +1,44 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+class Pair {
+    public int first, second;
+
+    public Pair(int x, int y) {
+        this.first = x;
+        this.second = y;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int tc = sc.nextInt();
+        while (tc-- > 0) System.out.println(solve());
+    }
+
+    private static int solve() {
+        Queue<Pair> q = new LinkedList<>();
+        boolean[] visited = new boolean[1000001];
+        int a = sc.nextInt(), b = sc.nextInt();
+        q.add(new Pair(a, 0));
+        visited[a] = true;
+
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            if (p.first == b) return p.second;
+
+            if (p.first - 1 > 0 && !visited[p.first - 1]) {
+                visited[p.first - 1] = true;
+                q.add(new Pair(p.first - 1, p.second + 1));
+            }
+            if (p.first < b && !visited[p.first * 2]) {
+                visited[p.first * 2] = true;
+                q.add(new Pair(p.first * 2, p.second + 1));
+            }
+        }
+        return 1;
+    }
+}
