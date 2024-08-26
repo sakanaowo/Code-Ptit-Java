@@ -1,0 +1,47 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Lecturer implements Comparable<Lecturer> {
+    String ID, name, subject;
+    static int index = 1;
+
+    public Lecturer() {
+        this.ID = String.format("GV%02d", index++);
+        this.name = Sakana.sc.nextLine();
+        this.subject = solve(Sakana.sc.nextLine());
+    }
+
+    private String solve(String s) {
+        String[] flow = s.split(" ");
+        StringBuilder builder = new StringBuilder();
+        for (String str : flow) {
+            builder.append(str.charAt(0));
+        }
+        return builder.toString().toUpperCase();
+    }
+
+    @Override
+    public int compareTo(Lecturer o) {
+        String name1 = this.name.substring(this.name.lastIndexOf(' ') + 1);
+        String name2 = o.name.substring(o.name.lastIndexOf(' ') + 1);
+        if (name1.equals(name2)) return this.ID.compareTo(o.ID);
+        return name1.compareTo(name2);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s", ID, name, subject);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        List<Lecturer> lecturers = new ArrayList<>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) lecturers.add(new Lecturer());
+        Collections.sort(lecturers);
+        for (Lecturer lecturer : lecturers) System.out.println(lecturer);
+    }
+}
