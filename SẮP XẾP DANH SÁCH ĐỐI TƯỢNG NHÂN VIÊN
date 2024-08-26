@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Employee implements Comparable<Employee> {
+    String ID, name, gender, date_of_birth, address, taxID, contractDate;
+    static int index = 1;
+
+    public Employee(Scanner sc) {
+        this.name = sc.nextLine();
+        this.gender = sc.nextLine();
+        this.date_of_birth = sc.nextLine();
+        this.address = sc.nextLine();
+        this.taxID = sc.nextLine();
+        this.contractDate = sc.nextLine();
+        this.ID = String.format("%05d", index++);
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+        String[] date2 = this.date_of_birth.split("/"), date1 = o.date_of_birth.split("/");
+        if (date1[2].compareTo(date2[2]) == 0) {
+            if (date1[1].compareTo(date2[1]) == 0) return date2[0].compareTo(date1[0]);
+            return date2[1].compareTo(date1[1]);
+        }
+        return date2[2].compareTo(date1[2]);
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.gender + " " + this.date_of_birth + " " + this.address + " " + this.taxID + " " + this.contractDate;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Employee> employees = new ArrayList<Employee>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) employees.add(new Employee(sc));
+        Collections.sort(employees);
+        for (Employee e : employees) System.out.println(e);
+    }
+}
