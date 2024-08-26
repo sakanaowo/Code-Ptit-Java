@@ -1,0 +1,33 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Employee {
+    String ID, name, gender, date_of_birth, address, taxID, contractDate;
+    static int index = 1;
+
+    public Employee(Scanner sc) {
+        this.name = sc.nextLine();
+        this.gender = sc.nextLine();
+        this.date_of_birth = sc.nextLine();
+        this.address = sc.nextLine();
+        this.taxID = sc.nextLine();
+        this.contractDate = sc.nextLine();
+        this.ID = String.format("%05d", index++);
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.gender + " " + this.date_of_birth + " " + this.address + " " + this.taxID + " " + this.contractDate;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Employee> employees = new ArrayList<Employee>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) employees.add(new Employee(sc));
+        for (Employee e : employees) System.out.println(e);
+    }
+}
