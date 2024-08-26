@@ -1,0 +1,59 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Student implements Comparable<Student> {
+    String ID, name, date_of_birth, classID;
+    double GPA;
+
+    public Student(Scanner sc, int i) {
+        this.ID = "B20DCCN" + String.format("%03d", i);
+        this.name = rename(sc.nextLine());
+        this.classID = sc.nextLine();
+        this.date_of_birth = rebirth(sc.nextLine());
+        this.GPA = Double.parseDouble(sc.nextLine());
+    }
+
+    private String rename(String s) {
+        String[] flow = s.split("\\s+");
+        StringBuilder name = new StringBuilder();
+        for (String x : flow) {
+            if (!x.isEmpty()) {
+                name.append(x.substring(0, 1).toUpperCase() + x.substring(1).toLowerCase() + " ");
+            }
+        }
+        return name.toString().trim();
+    }
+
+    private String rebirth(String s) {
+        String[] flow = s.split("/");
+        StringBuilder sb = new StringBuilder();
+        if (flow[0].length() < 2) flow[0] = "0" + flow[0];
+        if (flow[1].length() < 2) flow[1] = "0" + flow[1];
+        sb.append(flow[0] + "/").append(flow[1] + "/").append(flow[2]);
+        return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return Double.compare(o.GPA, this.GPA);
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.classID + " " + this.date_of_birth + " " + String.format("%.2f", this.GPA);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int t = Integer.parseInt(sc.nextLine());
+        List<Student> students = new ArrayList<Student>();
+        for (int i = 1; i <= t; i++) students.add(new Student(sc, i));
+        Collections.sort(students);
+        for (Student s : students) System.out.println(s);
+    }
+}
