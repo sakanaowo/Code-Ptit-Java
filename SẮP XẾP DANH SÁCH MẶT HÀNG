@@ -1,0 +1,40 @@
+import java.io.IOException;
+import java.util.*;
+
+class Item implements Comparable<Item> {
+    String name, type;
+    double purchase, price, profit;
+    static int index = 1;
+    int ID;
+
+    public Item() {
+        this.name = Sakana.sc.nextLine();
+        this.ID = index++;
+        this.type = Sakana.sc.nextLine();
+        this.purchase = Double.parseDouble(Sakana.sc.nextLine());
+        this.price = Double.parseDouble(Sakana.sc.nextLine());
+        this.profit = this.price - this.purchase;
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        return -Double.compare(this.purchase, o.purchase);
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.type + " " + String.format("%.2f", this.profit);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        int t = Integer.parseInt(sc.nextLine());
+        List<Item> items = new ArrayList<Item>();
+        while (t-- > 0) items.add(new Item());
+        Collections.sort(items);
+        for (Item item : items) System.out.println(item);
+    }
+}
