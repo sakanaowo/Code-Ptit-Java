@@ -1,0 +1,65 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.Math.round;
+
+class Item implements Comparable<Item> {
+    String ID, name, unit;
+    double ship, total, price, sell_price, quantity;
+    static int index = 1;
+
+    public Item() {
+        this.ID = String.format("MH%02d", index++);
+        this.name = Sakana.sc.nextLine();
+        this.unit = Sakana.sc.nextLine();
+        this.price = Double.parseDouble(Sakana.sc.nextLine());
+        this.quantity = Double.parseDouble(Sakana.sc.nextLine());
+        solve();
+    }
+
+    private void solve() {
+        calc_ship();
+        calc_total();
+        calc_sell_price();
+    }
+
+    private void calc_total() {
+        this.total = this.price * this.quantity + this.ship ;
+    }
+
+    private void calc_sell_price() {
+        this.sell_price = round((this.total * 1.02 / this.quantity));
+        if (this.sell_price % 100 != 0) this.sell_price = this.sell_price - this.sell_price % 100 + 100;
+    }
+
+    private void calc_ship() {
+        this.ship = round((this.price * this.quantity) * 0.05);
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        return this.sell_price < o.sell_price ? 1 : -1;
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.unit + " "
+                + String.format("%.0f", this.ship) + " "
+                + String.format("%.0f", total) + " "
+                + String.format("%.0f", this.sell_price);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        List<Item> items = new ArrayList<Item>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) items.add(new Item());
+        Collections.sort(items);
+        for (Item item : items) System.out.println(item);
+    }
+}
