@@ -1,0 +1,48 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Student implements Comparable<Student> {
+    String name, date;
+    double score;
+    static int index = 1;
+    int ID;
+
+    public Student() {
+        this.ID = index++;
+        this.name = Sakana.sc.nextLine();
+        this.date = Sakana.sc.nextLine();
+        double a, b, c;
+        a = Double.parseDouble(Sakana.sc.nextLine());
+        b = Double.parseDouble(Sakana.sc.nextLine());
+        c = Double.parseDouble(Sakana.sc.nextLine());
+        this.score = a + b + c;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        if (Double.compare(this.score, o.score) == 0) return this.ID - o.ID;
+        return -Double.compare(this.score, o.score);
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.name + " " + this.date + " " + this.score;
+    }
+}
+
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int t = Integer.parseInt(sc.nextLine());
+        List<Student> students = new ArrayList<Student>();
+        while (t-- > 0) students.add(new Student());
+        Collections.sort(students);
+        for (Student s : students) {
+            if (s.score == students.get(0).score) System.out.println(s);
+        }
+    }
+}
