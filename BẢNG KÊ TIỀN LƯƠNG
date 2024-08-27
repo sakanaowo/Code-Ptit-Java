@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+class Employee {
+    String name, position, ID;
+    double salary, number, salary_per_day, month_salary, bonus, allowance;
+    static int index = 1;
+
+    public Employee() {
+        this.ID = String.format("NV%02d", index++);
+        this.name = Sakana.sc.nextLine();
+        this.salary_per_day = Double.parseDouble(Sakana.sc.nextLine());
+        this.number = Double.parseDouble(Sakana.sc.nextLine());
+        this.position = Sakana.sc.nextLine();
+        solve();
+    }
+
+    private void solve() {
+        this.month_salary = this.salary_per_day * this.number;
+        if (this.number >= 25) bonus = month_salary * 0.2;
+        else if (this.number >= 22) bonus = month_salary * 0.1;
+        else bonus = 0;
+        switch (this.position) {
+            case "GD":
+                allowance = 250000;
+                break;
+            case "PGD":
+                allowance = 200000;
+                break;
+            case "TP":
+                allowance = 180000;
+                break;
+            default:
+                allowance = 150000;
+                break;
+        }
+        this.salary = month_salary + bonus + allowance;
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + String.format("%.0f", month_salary)
+                + " " + String.format("%.0f", bonus)
+                + " " + String.format("%.0f", allowance)
+                + " " + String.format("%.0f", salary);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        List<Employee> employees = new ArrayList<>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) employees.add(new Employee());
+        double total = employees.stream().mapToDouble(e -> e.salary).sum();
+        for (Employee e : employees) System.out.println(e);
+        System.out.println("Tong chi phi tien luong: " + String.format("%.0f", total));
+    }
+}
