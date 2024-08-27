@@ -1,0 +1,82 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Payment implements Comparable<Payment> {
+    String name, type, ID;
+    static int index = 1;
+    double amount, first, last, inquota, outquota, VAT;
+
+    public Payment(Scanner sc) {
+        this.ID = String.format("KH%02d", index++);
+        this.name = normalize(sc.nextLine());
+        String[] flow = sc.nextLine().split(" ");
+        this.type = flow[0];
+        this.first = Double.parseDouble(flow[1]);
+        this.last = Double.parseDouble(flow[2]);
+        solve();
+    }
+
+    private void solve() {
+        double diff = last - first;
+        double quotaLimit;
+        double inquotaRate = 450;
+        double outquotaRate = 1000;
+
+        if (this.type.equals("A")) {
+            quotaLimit = 100;
+        } else if (this.type.equals("B")) {
+            quotaLimit = 500;
+        } else {
+            quotaLimit = 200;
+        }
+
+        if (diff >= quotaLimit) {
+            inquota = quotaLimit * inquotaRate;
+            outquota = (diff - quotaLimit) * outquotaRate;
+        } else {
+            inquota = diff * inquotaRate;
+            outquota = 0;
+        }
+        VAT = (outquota > 0) ? (outquota * 0.05) : 0;
+        amount = inquota + outquota + VAT;
+    }
+
+    private String normalize(String s) {
+        StringBuilder sb = new StringBuilder();
+        String[] words = s.split("\\s+");
+        for (String word : words) {
+            if (!word.isEmpty())
+                sb.append(word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ");
+        }
+        return sb.toString().trim();
+    }
+
+    @Override
+    public int compareTo(Payment o) {
+        return (this.amount - o.amount < 0) ? 1 : -1;
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + String.format("%.0f", inquota)
+                + " " + String.format("%.0f", outquota)
+                + " " + String.format("%.0f", VAT)
+                + " " + String.format("%.0f", amount);
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        Scanner sc = new Scanner(new File("KHACHHANG.in"));
+        List<Payment> payments = new ArrayList<Payment>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) payments.add(new Payment(sc));
+        Collections.sort(payments);
+        for (Payment payment : payments) System.out.println(payment);
+    }
+}
