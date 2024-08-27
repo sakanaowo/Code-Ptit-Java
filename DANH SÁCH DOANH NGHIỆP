@@ -1,0 +1,36 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+
+class Enterprise implements Comparable<Enterprise> {
+    String ID, name;
+    int number_of_sv;
+
+    Enterprise(Scanner sc) {
+        this.ID = sc.nextLine();
+        this.name = sc.nextLine();
+        this.number_of_sv = Integer.parseInt(sc.nextLine());
+    }
+
+    @Override
+    public int compareTo(Enterprise o) {
+        return this.ID.compareTo(o.ID);
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + number_of_sv;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("DN.in"));
+        int tc = Integer.parseInt(sc.nextLine());
+        List<Enterprise> enterprises = new ArrayList<>();
+        while (tc-- > 0) enterprises.add(new Enterprise(sc));
+        Collections.sort(enterprises);
+        for (Enterprise e : enterprises) System.out.println(e);
+    }
+}
