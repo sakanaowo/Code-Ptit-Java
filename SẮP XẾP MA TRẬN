@@ -1,0 +1,28 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Sakana {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        Scanner sc = new Scanner(new File("MATRIX.in"));
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
+            int[][] matrix = new int[n + 1][m + 1];
+            int[] ar = new int[n + 1];
+            for (int i = 1; i <= n; i++)
+                for (int j = 1; j <= m; j++) {
+                    matrix[i][j] = sc.nextInt();
+                    if (j == k) ar[i] = matrix[i][j];
+                }
+            Arrays.sort(ar,1,n+1);
+            for (int i = 1; i <= n; i++) matrix[i][k] = ar[i];
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= m; j++) System.out.print(matrix[i][j] + " ");
+                System.out.println();
+            }
+        }
+    }
+}
