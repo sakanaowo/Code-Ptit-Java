@@ -1,0 +1,58 @@
+import java.util.*;
+
+class Employee implements Comparable<Employee> {
+    String name, position, ID;
+    long salary, number, salary_per_day, month_salary, bonus, allowance;
+    static int index = 1;
+
+    public Employee() {
+        this.ID = String.format("NV%02d", index++);
+        this.name = Sakana.sc.nextLine();
+        this.salary_per_day = Long.parseLong(Sakana.sc.nextLine());
+        this.number = Long.parseLong(Sakana.sc.nextLine());
+        this.position = Sakana.sc.nextLine();
+        solve();
+    }
+
+    private void solve() {
+        this.month_salary = this.salary_per_day * this.number;
+        if (this.number >= 25) bonus = month_salary / 5;
+        else if (this.number >= 22) bonus = month_salary / 10;
+        else bonus = 0;
+        switch (this.position) {
+            case "GD":
+                allowance = 250000;
+                break;
+            case "PGD":
+                allowance = 200000;
+                break;
+            case "TP":
+                allowance = 180000;
+                break;
+            default:
+                allowance = 150000;
+                break;
+        }
+        this.salary = month_salary + bonus + allowance;
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+        return (this.salary - o.salary < 0) ? 1 : -1;
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + month_salary + " " + bonus
+                + " " + allowance + " " + salary;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        Employee e = new Employee();
+        System.out.println(e);
+    }
+}
