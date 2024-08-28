@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+import static java.lang.Math.max;
+import static java.lang.Math.sqrt;
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) solve(sc);
+    }
+
+    private static void solve(Scanner sc) {
+        long n = sc.nextLong();
+        long m = 0;
+
+        for (long i = 2; i <= sqrt(n); i++) {
+            if (n % i == 0) {
+                m = max(m, i);
+                while (n % i == 0) n /= i;
+            }
+        }
+        System.out.println((n > 1) ? n : m);
+    }
+}
