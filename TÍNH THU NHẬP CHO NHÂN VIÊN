@@ -1,0 +1,68 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.Math.round;
+
+class Employee {
+    String name, ID, position;
+    double salary, allowance, advance, base, remaining;
+    static int index = 1;
+    int work_num;
+
+    public Employee() {
+        this.ID = String.format("NV%02d", index++);
+        this.name = Sakana.sc.nextLine();
+        this.position = Sakana.sc.nextLine();
+        this.base = Double.parseDouble(Sakana.sc.nextLine());
+        this.work_num = Integer.parseInt(Sakana.sc.nextLine());
+        solve();
+    }
+
+    private void solve() {
+        this.salary = this.base * this.work_num;
+        this.allowance = getAllowance();
+        this.advance = getAdvance();
+        this.remaining = this.salary + this.allowance - this.advance;
+    }
+
+    private double getAdvance() {
+        double tmp = (this.allowance + this.salary) * 2 / 3;
+        if (tmp < 25000) return round(tmp / 1000) * 1000;
+        else return 25000;
+    }
+
+    private double getAllowance() {
+        switch (this.position) {
+            case "GD":
+                return 500;
+            case "PGD":
+                return 400;
+            case "TP":
+                return 300;
+            case "KT":
+                return 250;
+            default:
+                return 100;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + String.format("%.0f", allowance) + " "
+                + String.format("%.0f", salary) + " "
+                + String.format("%.0f", advance) + " "
+                + String.format("%.0f", remaining);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        List<Employee> list = new ArrayList<Employee>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) list.add(new Employee());
+        for (Employee e : list) System.out.println(e);
+    }
+}
