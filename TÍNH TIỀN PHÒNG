@@ -1,0 +1,105 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Customer implements Comparable<Customer> {
+    static int index = 1;
+    String ID, name, room, checkin, checkout;
+    double total, service;
+    long days_in;
+
+    public Customer() {
+        this.ID = String.format("KH%02d", index++);
+        this.name = rename(Sakana.sc.nextLine().split("\\s+"));
+        this.room = Sakana.sc.nextLine();
+        this.checkin = reformat(Sakana.sc.nextLine().split("/"));
+        this.checkout = reformat(Sakana.sc.nextLine().split("/"));
+        this.service = Double.parseDouble(Sakana.sc.nextLine());
+        solve();
+    }
+
+    private void solve() {
+        this.days_in = getDaysIn();
+        this.total = getTotal();
+    }
+
+    private double getTotal() {
+        double price;
+        switch (this.room.charAt(0)) {
+            case '1':
+                price = 25;
+                break;
+            case '2':
+                price = 34;
+                break;
+            case '3':
+                price = 50;
+                break;
+            default:
+                price = 80;
+        }
+        return price * this.days_in + this.service;
+    }
+
+    private long getDaysIn() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate d1 = LocalDate.parse(checkin, formatter);
+        LocalDate d2 = LocalDate.parse(checkout, formatter);
+        long date = ChronoUnit.DAYS.between(d1, d2);
+        return date + 1;
+    }
+
+    private String reformat(String[] split) {
+        StringBuilder builder = new StringBuilder();
+        builder.append((split[0].length() < 2) ? ("0" + split[0]) : split[0]).append("/");
+        builder.append((split[1].length() < 2) ? ("0" + split[1]) : split[1]).append("/");
+        builder.append(split[2]);
+        return builder.toString();
+    }
+
+    private String rename(String[] split) {
+        StringBuilder builder = new StringBuilder();
+        for (String x : split) {
+            if (!x.isEmpty()) {
+                builder.append(x.substring(0, 1).toUpperCase() + x.substring(1).toLowerCase() + " ");
+            }
+        }
+        return builder.toString().trim();
+    }
+
+    @Override
+    public int compareTo(Customer o) {
+        return (this.total < o.total) ? 1 : -1;
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + room + " " + days_in + " " + String.format("%.0f", total);
+    }
+}
+
+public class Sakana {
+    static Scanner sc;
+
+    static {
+        try {
+            sc = new Scanner(new File("KHACHHANG.in"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        int t = Integer.parseInt(sc.nextLine());
+        List<Customer> customers = new ArrayList<Customer>();
+        while (t-- > 0) customers.add(new Customer());
+        Collections.sort(customers);
+        for (Customer c : customers) System.out.println(c);
+    }
+}
