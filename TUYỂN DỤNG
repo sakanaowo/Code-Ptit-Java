@@ -1,0 +1,50 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Employee implements Comparable<Employee> {
+    static int index = 1;
+    String name, stat, ID;
+    double score, theory, practice;
+
+    public Employee() {
+        this.ID = String.format("TS%02d", index++);
+        this.name = Sakana.sc.nextLine();
+        this.practice = Double.parseDouble(Sakana.sc.nextLine());
+        this.theory = Double.parseDouble(Sakana.sc.nextLine());
+        solve();
+    }
+
+    private void solve() {
+        if (this.practice > 10) this.practice /= 10;
+        if (this.theory > 10) this.theory /= 10;
+        this.score = (this.practice + this.theory) / 2;
+        if (this.score > 9.5) this.stat = "XUAT SAC";
+        else if (this.score >= 8) this.stat = "DAT";
+        else if (this.score >= 5) this.stat = "CAN NHAC";
+        else this.stat = "TRUOT";
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + String.format("%.2f", score) + " " + stat;
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+        return -Double.compare(this.score, o.score);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int t = Integer.parseInt(sc.nextLine());
+        List<Employee> list = new ArrayList<Employee>();
+        while (t-- > 0) list.add(new Employee());
+        Collections.sort(list);
+        for(Employee e : list) System.out.println(e);
+    }
+}
