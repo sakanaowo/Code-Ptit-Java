@@ -1,0 +1,45 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Subject implements Comparable<Subject> {
+    String ID, line;
+
+    public Subject() {
+        this.ID = Sakana.sc.nextLine();
+        this.line = this.ID + " " + Sakana.sc.nextLine() + " " + Sakana.sc.nextLine();
+    }
+
+    @Override
+    public int compareTo(Subject o) {
+        return this.ID.compareTo(o.ID);
+    }
+
+    public String toString() {
+        return this.line;
+    }
+}
+
+public class Sakana {
+    static Scanner sc;
+
+    static {
+        try {
+            sc = new Scanner(new File("MONHOC.in"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+        int t = Integer.parseInt(sc.nextLine());
+        List<Subject> subjects = new ArrayList<Subject>();
+        while (t-- > 0) subjects.add(new Subject());
+        Collections.sort(subjects);
+        for (Subject s : subjects) System.out.println(s);
+    }
+}
