@@ -1,0 +1,59 @@
+import java.util.*;
+
+class Student implements Comparable<Student> {
+    String name, ID, status;
+    int rank;
+    double score;
+    static int IDindex = 1, Rankindex = 1;
+
+    public Student() {
+        this.ID = String.format("HS%02d", IDindex++);
+        this.name = Sakana.sc.nextLine();
+        this.score = Double.parseDouble(Sakana.sc.nextLine());
+        this.status = getStatus();
+    }
+
+    private String getStatus() {
+        if (this.score >= 9) return "Gioi";
+        else if (this.score >= 7) return "Kha";
+        else if (this.score >= 5) return "Trung Binh";
+        else return "Yeu";
+    }
+
+    public static void sortRank(List<Student> students) {
+        Collections.sort(students);
+        int current = 1;
+        for (int i = 0; i < students.size(); i++) {
+            if (i > 0 && students.get(i).score == students.get(i - 1).score) {
+                students.get(i).rank = students.get(i - 1).rank;
+                current++;
+            }
+            else students.get(i).rank = current++;
+        }
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return -Double.compare(this.score, o.score);
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + score + " " + status + " " + rank;
+    }
+}
+
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int t = Integer.parseInt(sc.nextLine());
+        List<Student> students = new ArrayList<Student>();
+        while (t-- > 0) students.add(new Student());
+        Student.sortRank(students);
+        Collections.sort(students, Comparator.comparing(s -> s.ID));
+        for (Student s : students) System.out.println(s);
+        sc.close();
+    }
+}
