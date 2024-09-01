@@ -1,0 +1,49 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Product implements Comparable<Product> {
+    long price, quantity, total, discount;
+    String name, ID, order;
+
+    public Product() {
+        this.name = Sakana.sc.nextLine();
+        this.ID = Sakana.sc.nextLine();
+        this.price = Long.parseLong(Sakana.sc.nextLine());
+        this.quantity = Long.parseLong(Sakana.sc.nextLine());
+        solve();
+    }
+
+    private void solve() {
+        this.order = this.ID.substring(1, 4);
+        Character x = ID.charAt(ID.length() - 1);
+        long tmp = (x.equals('1')) ? 50 : 30;
+        this.total = this.price * this.quantity;
+        this.discount = this.total * tmp / 100;
+        this.total -= this.discount;
+    }
+
+    @Override
+    public int compareTo(Product o) {
+        return this.order.compareTo(o.order);
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + ID + " " + order + " " + discount + " " + total;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        List<Product> products = new ArrayList<Product>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) products.add(new Product());
+        Collections.sort(products);
+        for (Product p : products) System.out.println(p);
+        sc.close();
+    }
+}
