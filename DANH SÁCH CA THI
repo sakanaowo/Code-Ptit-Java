@@ -1,0 +1,65 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Period implements Comparable<Period> {
+    String ID, date, time, room;
+    static int index = 1;
+
+    public Period() {
+        this.ID = String.format("C%03d", index++);
+        this.date = Sakana.sc.nextLine();
+        this.time = Sakana.sc.nextLine();
+        this.room = Sakana.sc.nextLine();
+    }
+
+    @Override
+    public int compareTo(Period o) {
+        List<Integer> date1 = Arrays.stream(this.date.split("/")).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> date2 = Arrays.stream(o.date.split("/")).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> time1 = Arrays.stream(this.time.split(":")).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> time2 = Arrays.stream(o.time.split(":")).map(Integer::parseInt).collect(Collectors.toList());
+
+        int result = date1.get(2).compareTo(date2.get(2));
+        if (result != 0) return result;
+
+        result = date1.get(1).compareTo(date2.get(1));
+        if (result != 0) return result;
+
+        result = date1.get(0).compareTo(date2.get(0));
+        if (result != 0) return result;
+
+        result = time1.get(0).compareTo(time2.get(0));
+        if (result != 0) return result;
+
+        result = time1.get(1).compareTo(time2.get(1));
+        if (result != 0) return result;
+        return this.ID.compareTo(o.ID);
+    }
+
+    public String toString() {
+        return ID + " " + date + " " + time + " " + room;
+    }
+}
+
+public class Sakana {
+    static Scanner sc;
+
+    static {
+        try {
+            sc = new Scanner(new File("CATHI.in"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        List<Period> periods = new ArrayList<>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) periods.add(new Period());
+        Collections.sort(periods);
+        for (Period period : periods) System.out.println(period);
+        sc.close();
+    }
+}
