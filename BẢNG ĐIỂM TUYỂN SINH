@@ -1,0 +1,53 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Student {
+    String name, ID, status;
+    double math, physic, chemistry, prio, total;
+
+    public Student() {
+        this.ID = Sakana.sc.nextLine();
+        this.name = Sakana.sc.nextLine();
+        this.math = Double.parseDouble(Sakana.sc.nextLine());
+        this.physic = Double.parseDouble(Sakana.sc.nextLine());
+        this.chemistry = Double.parseDouble(Sakana.sc.nextLine());
+        solve();
+    }
+
+    private void solve() {
+        int x = Integer.parseInt(String.valueOf(this.ID.charAt(2)));
+        switch (x) {
+            case 1:
+                this.prio = 0.5;
+                break;
+            case 2:
+                this.prio = 1.0;
+                break;
+            case 3:
+                this.prio = 2.5;
+                break;
+        }
+        this.total = this.math * 2 + this.physic + this.chemistry;
+        this.status = (this.total + this.prio >= 24) ? "TRUNG TUYEN" : "TRUOT";
+    }
+
+    @Override
+    public String toString() {
+        String x = (this.prio == 1) ? "1" : String.format("%.1f", this.prio);
+        String y = (this.total % 1 == 0) ? String.format("%.0f", this.total) : String.format("%.1f", this.total);
+        return this.ID + " " + this.name + " " + x + " " + y + " " + this.status;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        List<Student> students = new ArrayList<Student>();
+        int t=Integer.parseInt(sc.nextLine());
+        while (t-- > 0) students.add(new Student());
+        for (Student s : students) System.out.println(s);
+        sc.close();
+    }
+}
