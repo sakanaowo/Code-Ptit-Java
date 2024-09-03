@@ -1,0 +1,79 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.Math.min;
+import static java.lang.Math.round;
+
+
+class FUHO {
+    String name, date, rank, ID;
+    double theory, practice, bonus;
+    int age, average;
+    static int index = 1;
+
+    public FUHO() {
+        this.name = Sakana.sc.nextLine();
+        this.date = Sakana.sc.nextLine();
+        this.theory = Double.parseDouble(Sakana.sc.nextLine());
+        this.practice = Double.parseDouble(Sakana.sc.nextLine());
+        solve();
+    }
+
+    public void solve() {
+        this.ID = String.format("PH%02d", index++);
+        this.age = getAge();
+        this.bonus = getBonus();
+        this.average = getAverage();
+        this.rank = getRank();
+    }
+
+    private String getRank() {
+        switch (this.average) {
+            case 5:
+            case 6:
+                return "Trung binh";
+            case 7:
+                return "Kha";
+            case 8:
+                return "Gioi";
+            case 9:
+            case 10:
+                return "Xuat sac";
+            default:
+                return "Truot";
+        }
+    }
+
+    private double getBonus() {
+        if (this.theory >= 8 && this.practice >= 8) return 1;
+        return (this.theory >= 7.5 && this.practice >= 7.5) ? 0.5 : 0;
+    }
+
+    private int getAverage() {
+        double tmp = (this.theory + this.practice) / 2 + this.bonus;
+        int score = (int) round(tmp);
+        return min(score, 10);
+    }
+
+    private int getAge() {
+        return 2021 - Integer.parseInt(this.date.substring(6));
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + age + " " + average + " " + rank;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        List<FUHO> list = new ArrayList<>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) list.add(new FUHO());
+        for (FUHO fuho : list) System.out.println(fuho);
+        sc.close();
+    }
+}
