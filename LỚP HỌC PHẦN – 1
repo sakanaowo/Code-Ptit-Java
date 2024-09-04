@@ -1,0 +1,44 @@
+import java.util.*;
+
+class Course implements Comparable<Course> {
+    String ID, name, group, lecturer;
+
+    public Course() {
+        this.ID = Sakana.sc.nextLine();
+        this.name = Sakana.sc.nextLine();
+        this.group = Sakana.sc.nextLine();
+        this.lecturer = Sakana.sc.nextLine();
+    }
+
+    @Override
+    public int compareTo(Course o) {
+        return this.group.compareTo(o.group);
+    }
+    @Override
+    public String toString() {
+        return group + " " + lecturer;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int t = Integer.parseInt(sc.nextLine()), m;
+        Map<String, String> mp = new HashMap<>();
+        List<Course> courses = new ArrayList<Course>();
+        for (int i = 0; i < t; i++) {
+            courses.add(new Course());
+            mp.put(courses.get(i).ID, courses.get(i).name);
+        }
+        Collections.sort(courses);
+        m = Integer.parseInt(sc.nextLine());
+        while (m-- > 0) {
+            String s = sc.nextLine(), x;
+            x = mp.get(s);
+            System.out.println("Danh sach nhom lop mon " + x + ":");
+            for (Course c : courses) if (c.ID.equals(s)) System.out.println(c);
+        }
+        sc.close();
+    }
+}
