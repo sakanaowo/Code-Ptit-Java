@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int t = sc.nextInt();
+        while (t-- > 0) solve(sc.nextInt());
+    }
+
+    private static void solve(int N) {
+        int count = 0;
+        for (int i = 1; i <= Math.sqrt(N); i++) {
+            if (N % i == 0) {
+                // i là ước số của N
+                if (i % 2 == 0) {
+                    count++;
+                }
+                // N/i là ước số của N, cần kiểm tra i và N/i khác nhau
+                if (i != N / i && (N / i) % 2 == 0) {
+                    count++;
+                }
+            }
+        }
+        System.out.println(count);
+    }
+}
