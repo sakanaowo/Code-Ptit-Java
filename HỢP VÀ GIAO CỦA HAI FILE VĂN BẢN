@@ -1,0 +1,42 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
+class WordSet {
+    Set<String> words;
+
+    public WordSet(String file) throws IOException {
+        words = new TreeSet<String>();
+        Scanner sc = new Scanner(new File(file));
+        while (sc.hasNextLine()) {
+            String[] line = sc.nextLine().toLowerCase().split("\\s+");
+            words.addAll(Arrays.asList(line));
+        }
+        sc.close();
+    }
+
+
+    public String union(WordSet s2) {
+        Set<String> uni = new TreeSet<>(words);
+        uni.addAll(s2.words);
+        return String.join(" ", uni);
+    }
+
+    public String intersection(WordSet s2) {
+        Set<String> inter = new TreeSet<>(words);
+        inter.retainAll(s2.words);
+        return String.join(" ", inter);
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws IOException {
+        WordSet s1 = new WordSet("DATA1.in");
+        WordSet s2 = new WordSet("DATA2.in");
+        System.out.println(s1.union(s2));
+        System.out.println(s1.intersection(s2));
+    }
+}
