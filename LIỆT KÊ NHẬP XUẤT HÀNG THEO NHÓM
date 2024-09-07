@@ -1,0 +1,66 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.Math.round;
+
+class Data implements Comparable<Data> {
+    String ID;
+    boolean valid = false;
+    long imp, exp, unit_price, bill, tax;
+
+    public Data() {
+        this.ID = Sakana.sc.nextLine().trim();
+        this.imp = Long.parseLong(Sakana.sc.nextLine());
+        solve();
+    }
+
+    private void solve() {
+        this.exp = getExp();
+        this.unit_price = (this.ID.endsWith("Y")) ? 110000 : 135000;
+        this.bill = this.exp * this.unit_price;
+        this.tax = getTax();
+        if (this.ID.startsWith("A") || this.ID.startsWith("B"))
+            if (this.ID.endsWith("Y") || this.ID.endsWith("N")) this.valid = true;
+    }
+
+    private long getTax() {
+        if (this.ID.startsWith("A")) {
+            if (this.ID.endsWith("Y")) return this.bill * 8 / 100;
+            else return this.bill * 11 / 100;
+        } else {
+            if (this.ID.endsWith("Y")) return this.bill * 17 / 100;
+            else return this.bill * 22 / 100;
+        }
+    }
+
+    private long getExp() {
+        if (this.ID.startsWith("A")) return round(this.imp * 6 / 10.0);
+        else return round(this.imp * 7 / 10.0);
+    }
+
+    @Override
+    public String toString() {
+        return this.ID + " " + this.imp + " " + this.exp + " " + this.unit_price + " " + this.bill + " " + this.tax;
+    }
+
+    public int compareTo(Data o) {
+        return -(int) (this.tax - o.tax);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int t = Integer.parseInt(sc.nextLine());
+
+        List<Data> data = new ArrayList<Data>();
+        while (t-- > 0) data.add(new Data());
+        Collections.sort(data);
+        String x = sc.nextLine().trim();
+        for (Data d : data) if (d.valid && d.ID.startsWith(x)) System.out.println(d);
+        sc.close();
+    }
+}
