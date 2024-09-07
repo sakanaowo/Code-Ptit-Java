@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+import static java.lang.Math.min;
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        System.out.println(solve(sc.nextInt(), sc.nextInt()));
+        sc.close();
+    }
+
+    private static String solve(int n, int k) {
+        if (k == 0 && n == 1) return "-1 -1";
+        if (k > 9 * n || k == 0) return "-1 -1";
+        StringBuilder a = new StringBuilder(), b = new StringBuilder();
+        int tmp = k;
+        for (int i = 0; i < n; i++) {
+            if (tmp >= 9) {
+                a.append(9);
+                tmp -= 9;
+            } else {
+                a.append(tmp);
+                tmp = 0;
+            }
+        }
+
+        for (int i = 0; i < n; i++) b.append(0);
+        int i = n - 1;
+        while (k > 0) {
+            int d = min(9, k);
+            b.setCharAt(i--, (char) (d + '0'));
+            k -= d;
+        }
+        if (b.charAt(0) == '0') {
+            b.setCharAt(0, '1');
+            b.setCharAt(i + 1, (char) (b.charAt(i + 1) - 1));
+        }
+        return b.toString() + " " + a.toString();
+    }
+}
