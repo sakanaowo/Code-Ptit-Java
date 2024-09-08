@@ -1,0 +1,28 @@
+import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Sakana {
+    public static boolean check(BigInteger n) {
+        BigInteger f1 = BigInteger.ZERO;
+        BigInteger f2 = BigInteger.ONE;
+
+        if (n.equals(f1) || n.equals(f2)) return true;
+
+        BigInteger fn;
+        while (f2.compareTo(n) < 0) {
+            fn = f1.add(f2);  
+            f1 = f2;
+            f2 = fn;
+        }
+        return f2.equals(n);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) {
+            BigInteger n = new BigInteger(sc.nextLine());
+            System.out.println(check(n) ? "YES" : "NO");
+        }
+    }
+}
