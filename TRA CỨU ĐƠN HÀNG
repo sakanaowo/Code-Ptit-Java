@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Order {
+    String name, ID, number;
+    long unit_price, quantity, discount, total;
+
+    public Order() {
+        this.name = Sakana.sc.nextLine();
+        this.ID = Sakana.sc.nextLine();
+        this.unit_price = Long.parseLong(Sakana.sc.nextLine());
+        this.quantity = Long.parseLong(Sakana.sc.nextLine());
+        solve();
+    }
+
+    private void solve() {
+        this.number = this.ID.substring(1, 4);
+        this.discount = getDiscount();
+        this.total = getTotal();
+    }
+
+    private long getTotal() {
+        return this.unit_price * this.quantity - this.discount;
+    }
+
+    private long getDiscount() {
+        if (this.ID.endsWith("1")) {
+            return this.unit_price * this.quantity * 5 / 10;
+        } else return this.unit_price * this.quantity * 3 / 10;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + ID + " " + number + " " + discount + " " + total;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        ArrayList<Order> orders = new ArrayList<>();
+        int tc = Integer.parseInt(sc.nextLine());
+        while (tc-- > 0) orders.add(new Order());
+        for (Order o : orders) System.out.println(o);
+    }
+}
