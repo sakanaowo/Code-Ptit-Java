@@ -1,0 +1,62 @@
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Sakana {
+    static boolean[] prime = new boolean[10001];
+
+    public static void sieve() {
+        Arrays.fill(prime, true);
+        prime[0] = false;
+        prime[1] = false;
+        for (int i = 2; i * i <= 10000; i++) {
+            if (prime[i]) {
+                for (int j = i * i; j <= 10000; j += i) {
+                    prime[j] = false;
+                }
+            }
+        }
+    }
+
+    static boolean hehe(int n) {
+        if (!prime[n]) return false;
+        String s = String.valueOf(n);
+        int l = s.length();
+        for (int i = 0; i < l / 2; i++) {
+            if (s.charAt(i) != s.charAt(l - i - 1)) return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        sieve();
+        ArrayList<Integer> data1 = readFile("DATA1.in");
+        ArrayList<Integer> data2 = readFile("DATA2.in");
+
+        TreeMap<Integer, Integer> map1 = new TreeMap<>();
+        TreeMap<Integer, Integer> map2 = new TreeMap<>();
+
+        for (int num : data1) {
+            if (hehe(num)) map1.put(num, map1.getOrDefault(num, 0) + 1);
+        }
+        for (int num : data2) {
+            if (hehe(num)) map2.put(num, map2.getOrDefault(num, 0) + 1);
+        }
+
+        List<Integer> commonPrimes = map1.keySet().stream()
+                .filter(map2::containsKey)
+                .collect(Collectors.toList());
+
+        for (int i : commonPrimes) {
+            System.out.println(i + " " + map1.get(i) + " " + map2.get(i));
+        }
+    }
+
+    private static ArrayList<Integer> readFile(String fileName) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (ArrayList<Integer>) ois.readObject();
+        }
+    }
+}
