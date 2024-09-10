@@ -1,0 +1,50 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Bill {
+    String type, ID;
+    static int index = 1;
+    long old_index, new_index, total, surcharge, coef, payment;
+
+    public Bill(Scanner sc) {
+        this.ID = String.format("KH%02d", index++);
+        this.type = sc.next().trim();
+        this.old_index = sc.nextLong();
+        this.new_index = sc.nextLong();
+        solve();
+    }
+
+    private void solve() {
+        if(this.type.contains("KD")) this.coef = 3;
+        else if(this.type.contains("NN")) this.coef = 5;
+        else if(this.type.contains("TT")) this.coef = 4;
+        else this.coef = 2;
+        this.total = (this.new_index-this.old_index)*this.coef*550;
+
+        if(this.new_index-this.old_index>100) this.surcharge = this.total;
+        else if(this.new_index-this.old_index>=50) this.surcharge = Math.round(this.total/100.0*35);
+        else this.surcharge = 0;
+        this.payment = this.surcharge+this.total;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %d %d %d %d", ID, coef, total, surcharge, payment);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        ArrayList<Bill> bills = new ArrayList<>();
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            bills.add(new Bill(sc));
+        }
+        for (Bill b : bills) {
+            System.out.println(b);
+        }
+        sc.close();
+    }
+}
