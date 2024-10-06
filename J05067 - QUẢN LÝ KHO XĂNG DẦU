@@ -1,0 +1,60 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+
+class Bill {
+    String ID, manufacturer;
+    long amount, unit_price, tax, total;
+
+    public Bill() {
+        String tmp[] = Sakana.sc.nextLine().split(" ");
+        this.ID = tmp[0];
+        this.amount = Long.parseLong(tmp[1]);
+        this.manufacturer = Sakana.getManufacturers.get(ID.substring(3));
+        this.unit_price = getUnit();
+        this.total = this.amount * this.unit_price;
+        this.tax = getTax();
+        this.total += this.tax;
+    }
+
+    private long getTax() {
+        if (ID.endsWith("TN")) return 0;
+        if (ID.startsWith("X")) return total * 3 / 100;
+        if (ID.startsWith("D")) return total * 7 / 200;
+        return total / 50;
+    }
+
+    private long getUnit() {
+        if (ID.startsWith("X")) return 128000;
+        if (ID.startsWith("D")) return 11200;
+        return 9700;
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + manufacturer + " " + unit_price + " " + tax + " " + total;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+    static Map<String, String> getManufacturers = new HashMap<String, String>();
+
+    static void ehe() {
+        getManufacturers.put("BP", "British Petro");
+        getManufacturers.put("ES", "Esso");
+        getManufacturers.put("SH", "Shell");
+        getManufacturers.put("CA", "Castrol");
+        getManufacturers.put("MO", "Mobil");
+        getManufacturers.put("TN", "Trong Nuoc");
+    }
+
+    public static void main(String[] args) {
+        ehe();
+        List<Bill> bills = new ArrayList<>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) bills.add(new Bill());
+        for (Bill b : bills) System.out.println(b);
+        sc.close();
+    }
+}
