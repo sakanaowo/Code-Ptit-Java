@@ -1,0 +1,103 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Calendar;
+
+class Product {
+    String code;
+    String name;
+    double price;
+    int warranty;
+
+    public Product(String code, String name, double price, int warranty) {
+        this.code = code;
+        this.name = name;
+        this.price = price;
+        this.warranty = warranty;
+    }
+}
+
+class Customer implements Comparable<Customer> {
+    String id;
+    String name;
+    String address;
+    String productCode;
+    int quantity;
+    Date purchaseDate;
+    Date warrantyEndDate;
+    static int customerCount = 1;
+    double totalPayment;
+
+    public Customer(String name, String address, String productCode, int quantity, String purchaseDate, Product product) throws ParseException {
+        this.id = String.format("KH%02d", customerCount++);
+        this.name = name;
+        this.address = address;
+        this.productCode = productCode;
+        this.quantity = quantity;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        this.purchaseDate = sdf.parse(purchaseDate);
+
+        // Calculate warranty end date
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(this.purchaseDate);
+        cal.add(Calendar.MONTH, product.warranty);
+        this.warrantyEndDate = cal.getTime();
+
+        // Calculate total payment
+        this.totalPayment = product.price * quantity;
+    }
+
+    @Override
+    public int compareTo(Customer other) {
+        int dateCompare = this.warrantyEndDate.compareTo(other.warrantyEndDate);
+        if (dateCompare != 0) return dateCompare;
+        return this.id.compareTo(other.id);
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return String.format("%s %s %s %s %.0f %s",
+                id, name, address, productCode, totalPayment, sdf.format(warrantyEndDate));
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException, ParseException {
+        Scanner sc = new Scanner(new File("MUAHANG.in"));
+//        Scanner sc = new Scanner(new File("data.in"));
+
+        // Read products
+        int n = Integer.parseInt(sc.nextLine());
+        Map<String, Product> products = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            String code = sc.nextLine();
+            String name = sc.nextLine();
+            double price = Double.parseDouble(sc.nextLine());
+            int warranty = Integer.parseInt(sc.nextLine());
+            products.put(code, new Product(code, name, price, warranty));
+        }
+
+        // Read customers
+        int m = Integer.parseInt(sc.nextLine());
+        List<Customer> customers = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            String name = sc.nextLine();
+            String address = sc.nextLine();
+            String productCode = sc.nextLine();
+            int quantity = Integer.parseInt(sc.nextLine());
+            String purchaseDate = sc.nextLine();
+
+            Product product = products.get(productCode);
+            customers.add(new Customer(name, address, productCode, quantity, purchaseDate, product));
+        }
+
+        // Sort and print results
+        Collections.sort(customers);
+        for (Customer customer : customers) {
+            System.out.println(customer);
+        }
+    }
+}
