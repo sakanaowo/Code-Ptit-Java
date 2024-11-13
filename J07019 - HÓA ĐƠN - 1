@@ -1,0 +1,100 @@
+import java.io.*;
+import java.util.*;
+
+class Product {
+    String code;
+    String name;
+    long price1;
+    long price2;
+    
+    public Product(String code, String name, long price1, long price2) {
+        this.code = code;
+        this.name = name;
+        this.price1 = price1;
+        this.price2 = price2;
+    }
+}
+
+class Bill {
+    String id;
+    int quantity;
+    Product product;
+    static int count = 1;
+    long total;
+    long discount;
+    long finalPrice;
+    int type;
+    
+    public Bill(String rawId, int quantity, Map<String, Product> products) {
+        // Extract product code and type
+        String productCode = rawId.substring(0, 2);
+        type = rawId.charAt(2) - '0';
+        
+        // Generate full bill ID
+        this.id = rawId + "-" + String.format("%03d", count++);
+        this.quantity = quantity;
+        this.product = products.get(productCode);
+        
+        // Calculate prices
+        calculatePrices();
+    }
+    
+    private void calculatePrices() {
+        // Calculate total before discount
+        long price = (type == 1) ? product.price1 : product.price2;
+        total = price * quantity;
+        
+        // Calculate discount
+        if (quantity >= 150) {
+            discount = total * 50 / 100;
+        } else if (quantity >= 100) {
+            discount = total * 30 / 100;
+        } else if (quantity >= 50) {
+            discount = total * 15 / 100;
+        } else {
+            discount = 0;
+        }
+        
+        // Calculate final price
+        finalPrice = total - discount;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%s %s %d %d", id, product.name, discount, finalPrice);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // Read products from DATA1.in
+        Scanner sc1 = new Scanner(new File("DATA1.in"));
+        int n = Integer.parseInt(sc1.nextLine());
+        Map<String, Product> products = new HashMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            String code = sc1.nextLine();
+            String name = sc1.nextLine();
+            long price1 = Long.parseLong(sc1.nextLine());
+            long price2 = Long.parseLong(sc1.nextLine());
+            products.put(code, new Product(code, name, price1, price2));
+        }
+        
+        // Read bills from DATA2.in
+        Scanner sc2 = new Scanner(new File("DATA2.in"));
+        int m = Integer.parseInt(sc2.nextLine());
+        List<Bill> bills = new ArrayList<>();
+        
+        for (int i = 0; i < m; i++) {
+            String[] line = sc2.nextLine().split("\\s+");
+            String rawId = line[0];
+            int quantity = Integer.parseInt(line[1]);
+            bills.add(new Bill(rawId, quantity, products));
+        }
+        
+        // Print results
+        for (Bill bill : bills) {
+            System.out.println(bill);
+        }
+    }
+}
