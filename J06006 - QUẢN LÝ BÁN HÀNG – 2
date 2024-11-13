@@ -1,0 +1,103 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+
+class Customer {
+    String ID, name, gender, bdate, address;
+    static int index = 1;
+
+    public Customer() {
+        this.ID = String.format("KH%03d", index++);
+        this.name = Sakana.sc.nextLine();
+        this.gender = Sakana.sc.nextLine();
+        this.bdate = Sakana.sc.nextLine();
+        this.address = Sakana.sc.nextLine();
+    }
+}
+
+class Item {
+    String ID, name, unit;
+    long purchase, sell;
+    static int index = 1;
+
+    public Item() {
+        this.ID = String.format("MH%03d", index++);
+        this.name = Sakana.sc.nextLine();
+        this.unit = Sakana.sc.nextLine();
+        this.purchase = Long.parseLong(Sakana.sc.nextLine());
+        this.sell = Long.parseLong(Sakana.sc.nextLine());
+    }
+}
+
+class Bill implements Comparable<Bill> {
+    static int index = 1;
+    Customer customer;
+    Item item;
+    String ID;
+    int quantity;
+    long total, profit;
+
+    public Bill(String KH, String MH, int c) {
+        this.ID = String.format("HD%03d", index++);
+        this.customer = Sakana.customers.get(KH);
+        this.item = Sakana.items.get(MH);
+        this.quantity = c;
+        total = quantity * item.sell;
+        profit = total - quantity * item.purchase;
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + customer.name + " " + customer.address + " " +
+                item.name + " " + quantity + " " + total + " " + profit;
+    }
+
+    public int compareTo(Bill b) {
+        if (profit == b.profit) return ID.compareTo(b.ID);
+        return (profit < b.profit) ? 1 : -1;
+    }
+}
+
+
+public class Sakana {
+    static Scanner sc;
+    static TreeMap<String, Item> items = new TreeMap<>();
+    static TreeMap<String, Customer> customers = new TreeMap<>();
+
+    public static void main(String[] args) throws FileNotFoundException {
+//        sc = new Scanner(new File("data.in"));
+        sc = new Scanner(System.in);
+
+        getCustomer();
+        getItem();
+        run();
+    }
+
+    private static void run() {
+        int n = Integer.parseInt(sc.nextLine());
+        List<Bill> bills = new ArrayList<>();
+        while (n-- > 0) {
+            String[] s = sc.nextLine().split(" ");
+            bills.add(new Bill(s[0], s[1], Integer.parseInt(s[2])));
+        }
+        Collections.sort(bills);
+        for (Bill b : bills) System.out.println(b);
+    }
+
+    private static void getItem() {
+        int n = Integer.parseInt(sc.nextLine());
+        while (n-- > 0) {
+            Item item = new Item();
+            items.put(item.ID, item);
+        }
+    }
+
+    private static void getCustomer() {
+        int n = Integer.parseInt(sc.nextLine());
+        while (n-- > 0) {
+            Customer customer = new Customer();
+            customers.put(customer.ID, customer);
+        }
+    }
+
+}
