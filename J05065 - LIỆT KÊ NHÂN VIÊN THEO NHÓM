@@ -1,0 +1,105 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+
+class Employee implements Comparable<Employee> {
+    String name;
+    String id;
+    String position;
+    String salaryGrade;
+    static int directorCount = 1;
+    static int managerCount = 3;
+    static int deputyCount = 3;
+
+    public Employee(String inputLine) {
+        String[] parts = inputLine.split(" ", 2);
+        this.id = parts[0];
+        this.name = parts[1];
+        processPosition();
+    }
+
+    private void processPosition() {
+        String positionCode = id.substring(0, 2);
+        this.salaryGrade = id.substring(2, 4);
+
+        switch (positionCode) {
+            case "GD":
+                if (directorCount > 0) {
+                    this.position = "GD";
+                    directorCount--;
+                } else {
+                    this.position = "NV";
+                }
+                break;
+            case "TP":
+                if (managerCount > 0) {
+                    this.position = "TP";
+                    managerCount--;
+                } else {
+                    this.position = "NV";
+                }
+                break;
+            case "PP":
+                if (deputyCount > 0) {
+                    this.position = "PP";
+                    deputyCount--;
+                } else {
+                    this.position = "NV";
+                }
+                break;
+            default:
+                this.position = "NV";
+        }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s %s",
+                name, position, id.substring(4), salaryGrade);
+    }
+
+    @Override
+    public int compareTo(Employee other) {
+        // Sort by salary grade (descending)
+        int salaryCompare = other.salaryGrade.compareTo(this.salaryGrade);
+        if (salaryCompare != 0) {
+            return salaryCompare;
+        }
+        // If salary grades are equal, sort by employee number (ascending)
+        return id.substring(4).compareTo(other.id.substring(4));
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) throws FileNotFoundException {
+        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(new File("data.in"));
+        List<Employee> employees = new ArrayList<>();
+
+        // Read number of employees
+        int n = Integer.parseInt(scanner.nextLine());
+
+        // Read employee data
+        for (int i = 0; i < n; i++) {
+            employees.add(new Employee(scanner.nextLine()));
+        }
+
+        // Sort employees
+        Collections.sort(employees);
+
+        // Process queries
+        int queries = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < queries; i++) {
+            String queryPosition = scanner.nextLine();
+            // Print employees with matching position
+            for (Employee emp : employees) {
+                if (emp.position.equals(queryPosition)) {
+                    System.out.println(emp);
+                }
+            }
+            System.out.println();
+        }
+
+        scanner.close();
+    }
+}
