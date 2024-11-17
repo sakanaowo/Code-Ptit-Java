@@ -1,0 +1,76 @@
+import java.util.*;
+
+public class Sakana {
+    static class Employee {
+        String position, salaryGrade, empNumber, name;
+        Long salary;
+
+        public Employee(String code, String name) {
+            position = code.substring(0, 2);
+            salaryGrade = code.substring(2, 4);
+            empNumber = code.substring(4);
+
+            int num = Integer.parseInt(empNumber);
+            if(position.compareTo("GD") == 0 && num > 1) {
+                position = "NV";
+            }
+            else if((position.compareTo("TP") == 0 || position.compareTo("PP") == 0) && num > 3) {
+                position = "NV";
+            }
+
+            this.name = name;
+            salary = Long.parseLong(salaryGrade);
+        }
+
+        @Override
+        public String toString() {
+            return name + " " + position + " " + empNumber + " " + salaryGrade;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        ArrayList<Employee> employees = new ArrayList<>();
+        sc.nextLine();
+
+        int gd = 0, tp = 0, pp = 0;
+
+        for(int i = 0; i < n; i++) {
+            Employee emp = new Employee(sc.next(), sc.nextLine().trim());
+
+            // Second position check based on count
+            if(emp.position.compareTo("GD") == 0) {
+                if(gd == 0) gd++;
+                else emp.position = "NV";
+            }
+            else if(emp.position.compareTo("TP") == 0) {
+                if(tp < 3) tp++;
+                else emp.position = "NV";
+            }
+            else if(emp.position.compareTo("PP") == 0) {
+                if(pp < 3) pp++;
+                else emp.position = "NV";
+            }
+
+            employees.add(emp);
+        }
+
+        employees.sort((x, y) -> {
+            if(x.salary.equals(y.salary))
+                return x.empNumber.compareTo(y.empNumber);
+            return y.salary.compareTo(x.salary);
+        });
+
+        int q = sc.nextInt();
+        sc.nextLine();
+        while(q-- > 0) {
+            String keyword = sc.nextLine().toLowerCase();
+            employees.forEach(e -> {
+                if(e.name.toLowerCase().contains(keyword))
+                    System.out.println(e);
+            });
+            System.out.println();
+        }
+    }
+}
