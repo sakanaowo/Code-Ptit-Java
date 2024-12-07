@@ -1,0 +1,68 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Scanner;
+
+class Data implements Comparable<Data> {
+    String ID, name, gender, bdate, address;
+    static int index = 1;
+
+    public Data() {
+        this.ID = String.format("KH%03d", index++);
+        this.name = rename(Sakana.sc.nextLine().trim().split("\\s+"));
+        this.gender = Sakana.sc.nextLine();
+        this.bdate = redate(Sakana.sc.nextLine().split("/"));
+        this.address = Sakana.sc.nextLine();
+    }
+
+    private String redate(String[] s) {
+        s[0] = String.format("%02d", Integer.parseInt(s[0]));
+        s[1] = String.format("%02d", Integer.parseInt(s[1]));
+        return String.join("/", s);
+    }
+
+    private String rename(String[] s) {
+        StringBuilder builder = new StringBuilder();
+        for (String x : s) {
+            if (!x.isEmpty()) builder.append(x.substring(0, 1).toUpperCase() + x.substring(1).toLowerCase() + " ");
+        }
+        return builder.toString().trim();
+    }
+
+    @Override
+    public int compareTo(Data o) {
+        try {
+            Long x = new SimpleDateFormat("dd/MM/yyyy").parse(bdate).getTime();
+            Long y = new SimpleDateFormat("dd/MM/yyyy").parse(o.bdate).getTime();
+            if (x.compareTo(y) == 0) {
+                return ID.compareTo(o.ID);
+            }
+            return x.compareTo(y);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + gender + " " + address + " " + bdate;
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] a) {
+        ArrayList<Data> data = new ArrayList<>();
+        int t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) {
+            data.add(new Data());
+        }
+        Collections.sort(data);
+        for (Data d : data) {
+            System.out.println(d);
+        }
+    }
+}
