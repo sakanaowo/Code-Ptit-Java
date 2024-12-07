@@ -1,0 +1,55 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static java.lang.Math.round;
+
+class Racist implements Comparable<Racist> {
+    String unit, name, ID;
+    long velocity;
+    Date ArrivalTime;
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+    public Racist() throws ParseException {
+        this.name = Sakana.sc.nextLine();
+        this.unit = Sakana.sc.nextLine();
+        this.ID = IDing();
+        this.ArrivalTime = sdf.parse(Sakana.sc.nextLine());
+        this.velocity = calculate();
+    }
+
+    private long calculate() throws ParseException {
+        Date Dep = sdf.parse("6:00");
+        double time = (ArrivalTime.getTime() - Dep.getTime()) / 3600000.0;
+        return round(120.0 / time);
+    }
+
+    private String IDing() {
+        String s = "";
+        for (String x : unit.split("\\s+")) if (!x.isEmpty()) s += x.substring(0, 1).toUpperCase();
+        for (String x : name.split("\\s+")) if (!x.isEmpty()) s += x.substring(0, 1).toUpperCase();
+        return s;
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + name + " " + unit + " " + velocity + " Km/h";
+    }
+
+    @Override
+    public int compareTo(Racist o) {
+        return this.ArrivalTime.compareTo(o.ArrivalTime);
+    }
+}
+
+public class Sakana {
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) throws ParseException {
+        int t = Integer.parseInt(sc.nextLine());
+        ArrayList<Racist> racists = new ArrayList<>();
+        while (t-- > 0) racists.add(new Racist());
+        Collections.sort(racists);
+        for (Racist r : racists) System.out.println(r);
+    }
+}
