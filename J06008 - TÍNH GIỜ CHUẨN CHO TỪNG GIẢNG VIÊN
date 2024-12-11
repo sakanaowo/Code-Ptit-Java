@@ -1,0 +1,79 @@
+import java.util.*;
+
+class Lecturer {
+    String ID, name;
+
+    public Lecturer(String ID, String name) {
+        this.ID = ID;
+        this.name = name;
+    }
+}
+
+class Subject {
+    String ID, name;
+
+    public Subject(String ID, String name) {
+        this.ID = ID;
+        this.name = name;
+    }
+}
+
+class Section {
+    String subjectName;
+    double time;
+
+    public Section(String subjectName, double time) {
+        this.subjectName = subjectName;
+        this.time = time;
+    }
+}
+
+public class Sakana {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+
+        Map<String, Subject> subjects = new HashMap<>();
+        while (t-- > 0) {
+            String ID = sc.next();
+            String name = sc.nextLine().trim();
+            subjects.put(ID, new Subject(ID, name));
+        }
+
+        Map<String, Lecturer> lecturers = new HashMap<>();
+        t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) {
+            String ID = sc.next();
+            String name = sc.nextLine().trim();
+            lecturers.put(ID, new Lecturer(ID, name));
+        }
+
+        Map<String, List<Section>> sections = new HashMap<>();
+        t = Integer.parseInt(sc.nextLine());
+        while (t-- > 0) {
+            String LecturerID = sc.next();
+            String SubjectID = sc.next();
+            double LecturerTime = Double.parseDouble(sc.nextLine().trim());
+            if (lecturers.containsKey(LecturerID) && subjects.containsKey(SubjectID)) {
+                String subjectName = subjects.get(SubjectID).name;
+                Section section = new Section(subjectName, LecturerTime);
+
+                sections.putIfAbsent(LecturerID, new ArrayList<>());
+                sections.get(LecturerID).add(section);
+            }
+        }
+        String LID = sc.nextLine().trim();
+        if (lecturers.containsKey(LID) && sections.containsKey(LID)) {
+            Lecturer lecturer = lecturers.get(LID);
+            List<Section> sectionList = sections.get(LID);
+
+            System.out.println("Giang vien: " + lecturer.name);
+            double time = 0;
+            for (Section section : sectionList) {
+                System.out.println(section.subjectName + " " + section.time);
+                time += section.time;
+            }
+            System.out.printf("Tong: %.2f\n", time);
+        }
+    }
+}
