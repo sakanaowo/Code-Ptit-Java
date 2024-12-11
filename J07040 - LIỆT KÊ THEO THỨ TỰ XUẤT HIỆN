@@ -1,0 +1,25 @@
+import java.io.*;
+import java.util.*;
+
+public class Sakana {
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        Scanner sc = new Scanner(new File("VANBAN.in"));
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("NHIPHAN.in"));
+        ArrayList<String> binF = (ArrayList<String>) ois.readObject();
+        Set<String> set1 = new HashSet<>();
+        for (String s : binF) {
+            for (String x : s.split("\\s+")) if (!x.isEmpty()) set1.add(x.toLowerCase());
+        }
+        List<String> lst = new ArrayList<>();
+        while (sc.hasNextLine()) {
+            String[] s = sc.nextLine().trim().split("\\s+");
+            for (String x : s) {
+                if (!x.isEmpty()) {
+                    if (set1.contains(x.toLowerCase())&&!lst.contains(x.toLowerCase())) lst.add(x.toLowerCase());
+                }
+            }
+        }
+        for(String x : lst) System.out.println(x);
+    }
+}
